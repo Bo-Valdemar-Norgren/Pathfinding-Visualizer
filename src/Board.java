@@ -1,4 +1,3 @@
-import Nodes.DefaultNode;
 import Nodes.Node;
 import Nodes.NodeFactory;
 import Nodes.NodeType;
@@ -27,12 +26,7 @@ public class Board extends JPanel
 	nodeColors.put(NodeType.START, Color.BLUE);
 	nodeColors.put(NodeType.END, Color.RED);
 
-	for (int y = 0; y < boardHeight; y++) {
-	    for (int x = 0; x < boardWidth; x++) {
-	        Point coordinates = new Point(x, y);
-		nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
-	    }
-	}
+	fillBoardWithDefaultNodes();
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -59,9 +53,34 @@ public class Board extends JPanel
     }
 
     public void setNode(Point coordinates, NodeType nodeType) {
+        removeSingularNodes(nodeType);
+
         Node node = nodeFactory.createNode(coordinates, nodeType);
 	nodes[coordinates.x][coordinates.y] = node;
         repaint();
+    }
+
+    private void removeSingularNodes(NodeType nodeType) {
+	switch (nodeType) {
+	    case START:
+		removeNodesOfType(NodeType.START);
+		break;
+	    case END:
+		removeNodesOfType(NodeType.END);
+		break;
+	}
+	repaint();
+    }
+
+    private void removeNodesOfType(NodeType nodeType) {
+	for (int y = 0; y < boardHeight; y++) {
+	    for (int x = 0; x < boardWidth; x++) {
+		if (nodes[x][y].getNodeType() == nodeType) {
+		    Point coordinates = new Point(x, y);
+		    nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
+		}
+	    }
+	}
     }
 
     public int getBoardWidth() {
@@ -70,5 +89,15 @@ public class Board extends JPanel
 
     public int getBoardHeight() {
 	return boardHeight;
+    }
+
+    public void fillBoardWithDefaultNodes() {
+	for (int y = 0; y < boardHeight; y++) {
+	    for (int x = 0; x < boardWidth; x++) {
+		Point coordinates = new Point(x, y);
+		nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
+	    }
+	}
+	repaint();
     }
 }

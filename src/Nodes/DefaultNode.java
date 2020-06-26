@@ -1,7 +1,5 @@
 package Nodes;
 
-import Nodes.AbstractNode;
-
 import java.awt.*;
 
 public class DefaultNode extends AbstractNode

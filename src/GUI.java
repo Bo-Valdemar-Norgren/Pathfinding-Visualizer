@@ -1,7 +1,5 @@
-import Nodes.Node;
-import Nodes.NodeFactory;
+
 import Nodes.NodeType;
-import Nodes.WallNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 
 public class GUI extends JFrame {
     private Board board;
-    private NodeFactory nodeFactory;
+    private NodeType selectedNodeType;
     private int mx;
     private int my;
 
@@ -20,9 +18,12 @@ public class GUI extends JFrame {
         this.setSize(658,680);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.nodeFactory = new NodeFactory();
+        this.selectedNodeType = NodeType.WALL;
         this.board = new Board();
         this.setContentPane(board);
+
+        JMenuBar menuBar = createMenu();
+        this.setJMenuBar(menuBar);
         this.setVisible(true);
 
         MouseMoves move = new MouseMoves();
@@ -69,10 +70,36 @@ public class GUI extends JFrame {
         }
     }
 
+    private JMenuBar createMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu nodeMenu = new JMenu("Nodes"), algoMenu = new JMenu("Algorithms"), startMenu = new JMenu("Start");
+
+        JMenuItem wallNode = new JMenuItem("Wall node");
+        wallNode.addActionListener(e->setSelectedNodeType(NodeType.WALL));
+        JMenuItem startNode = new JMenuItem("Start node");
+        startNode.addActionListener(e->setSelectedNodeType(NodeType.START));
+        JMenuItem endNode = new JMenuItem("End node");
+        endNode.addActionListener(e->setSelectedNodeType(NodeType.END));
+        nodeMenu.add(wallNode);
+        nodeMenu.add(startNode);
+        nodeMenu.add(endNode);
+
+        JMenuItem start = new JMenuItem("Start");
+        JMenuItem clear = new JMenuItem("Reset");
+        clear.addActionListener(e->board.fillBoardWithDefaultNodes());
+        startMenu.add(start);
+        startMenu.add(clear);
+
+        menuBar.add(startMenu);
+        menuBar.add(nodeMenu);
+        menuBar.add(algoMenu);
+        return menuBar;
+    }
+
     private void updateSelectedNode() {
         if (cursorOnNode()) {
             Point coordinates = getSelectedNodeCoordinates();
-            board.setNode(coordinates, NodeType.WALL);
+            board.setNode(coordinates, selectedNodeType);
         }
     }
 
@@ -88,7 +115,7 @@ public class GUI extends JFrame {
 
         for (int x = 0; x < boardHeight; x++) {
             for (int y = 0; y < boardWidth; y++) {
-                if (mx >= x*squareSize && mx < x*squareSize+squareSize+8 && my >= y*squareSize+8 && my < y*squareSize+squareSize+30) { //Magic numbers represent the pixels covered by the program frame.
+                if (mx >= x*squareSize && mx < x*squareSize+squareSize+8 && my >= y*squareSize+8 && my < y*squareSize+squareSize+50) { //Magic numbers represent the pixels covered by the program frame.
                     return new Point(x,y);
                 }
             }
@@ -98,5 +125,8 @@ public class GUI extends JFrame {
     public void updateCursorCoordinates(MouseEvent mouseEvent) {
         mx = mouseEvent.getX();
         my = mouseEvent.getY();
+    }
+    private void setSelectedNodeType(NodeType nodeType) {
+        selectedNodeType = nodeType;
     }
 }

@@ -1,7 +1,4 @@
 package Nodes;
-
-import Nodes.AbstractNode;
-
 import java.awt.*;
 
 public class EndNode extends AbstractNode
@@ -14,10 +11,10 @@ public class EndNode extends AbstractNode
     }
 
     @Override public NodeType getNodeType() {
-	return null;
+	return nodeType;
     }
 
     @Override public Point getCartesianCoordinates() {
-	return null;
+	return cartesianCoordinates;
     }
 }
