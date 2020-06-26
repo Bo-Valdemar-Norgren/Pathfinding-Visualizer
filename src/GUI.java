@@ -1,3 +1,5 @@
+import Nodes.Node;
+import Nodes.NodeFactory;
 import Nodes.NodeType;
 import Nodes.WallNode;
 
@@ -9,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 
 public class GUI extends JFrame {
     private Board board;
+    private NodeFactory nodeFactory;
     private int mx;
     private int my;
 
@@ -17,6 +20,7 @@ public class GUI extends JFrame {
         this.setSize(658,680);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+        this.nodeFactory = new NodeFactory();
         this.board = new Board();
         this.setContentPane(board);
         this.setVisible(true);
@@ -64,11 +68,11 @@ public class GUI extends JFrame {
 
         }
     }
+
     private void updateSelectedNode() {
         if (cursorOnNode()) {
             Point coordinates = getSelectedNodeCoordinates();
-            WallNode wallNode = new WallNode(coordinates, NodeType.WALL);
-            board.setNode(coordinates, wallNode);
+            board.setNode(coordinates, NodeType.WALL);
         }
     }
 

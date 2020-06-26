@@ -8,9 +8,9 @@ public class DefaultNode extends AbstractNode
 {
     private boolean hasBeenVisited;
 
-    public DefaultNode(final Point cartesianCoordinates, final NodeType nodeType) {
+    public DefaultNode(final Point cartesianCoordinates, final NodeType nodeType, boolean hasBeenVisited) {
 	super(cartesianCoordinates, nodeType);
-	this.hasBeenVisited = false;
+	this.hasBeenVisited = hasBeenVisited;
     }
 
     @Override public NodeType getNodeType() {

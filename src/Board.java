@@ -1,5 +1,6 @@
 import Nodes.DefaultNode;
 import Nodes.Node;
+import Nodes.NodeFactory;
 import Nodes.NodeType;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class Board extends JPanel
 {
     public Node[][] nodes;
     public static final int SQUARESIZE = 16;
+    private NodeFactory nodeFactory;
     private EnumMap<NodeType, Color> nodeColors;
     private int boardWidth, boardHeight;
 
@@ -17,6 +19,7 @@ public class Board extends JPanel
         this.boardWidth = 40;
 	this.boardHeight = 40;
 	this.nodes = new Node[boardWidth][boardHeight];
+	this.nodeFactory = new NodeFactory();
 	this.nodeColors = new EnumMap<>(NodeType.class);
 	nodeColors.put(NodeType.UNVISITED, Color.LIGHT_GRAY);
 	nodeColors.put(NodeType.VISITED, Color.GREEN);
@@ -27,7 +30,7 @@ public class Board extends JPanel
 	for (int y = 0; y < boardHeight; y++) {
 	    for (int x = 0; x < boardWidth; x++) {
 	        Point coordinates = new Point(x, y);
-		nodes[x][y] = new DefaultNode(coordinates, NodeType.UNVISITED);
+		nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
 	    }
 	}
     }
@@ -55,7 +58,8 @@ public class Board extends JPanel
         return nodes[x][y];
     }
 
-    public void setNode(Point coordinates, Node node) {
+    public void setNode(Point coordinates, NodeType nodeType) {
+        Node node = nodeFactory.createNode(coordinates, nodeType);
 	nodes[coordinates.x][coordinates.y] = node;
         repaint();
     }
