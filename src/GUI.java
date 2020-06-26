@@ -25,13 +25,11 @@ public class GUI extends JFrame {
         JMenuBar menuBar = createMenu();
         this.setJMenuBar(menuBar);
         this.setVisible(true);
-
         MouseMoves move = new MouseMoves();
         this.addMouseMotionListener(move);
 
         MouseClick click = new MouseClick();
         this.addMouseListener(click);
-
     }
     public class MouseMoves implements MouseMotionListener
     {
@@ -113,9 +111,10 @@ public class GUI extends JFrame {
         int boardWidth = board.getBoardWidth();
         int squareSize = Board.SQUARESIZE;
 
+
         for (int x = 0; x < boardHeight; x++) {
             for (int y = 0; y < boardWidth; y++) {
-                if (mx >= x*squareSize && mx < x*squareSize+squareSize+8 && my >= y*squareSize+8 && my < y*squareSize+squareSize+50) { //Magic numbers represent the pixels covered by the program frame.
+                if (mx >= x*squareSize+getInsets().left && mx < x*squareSize+squareSize+getInsets().right && my >= y*squareSize+getInsets().bottom && my < y*squareSize+squareSize+getInsets().top+22) { //Magic number represents the height of the menu bar.
                     return new Point(x,y);
                 }
             }
