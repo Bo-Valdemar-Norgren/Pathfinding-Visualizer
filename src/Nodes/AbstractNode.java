@@ -1,3 +1,5 @@
+package Nodes;
+
 import java.awt.*;
 
 public abstract class AbstractNode implements Node

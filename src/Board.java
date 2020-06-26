@@ -1,3 +1,7 @@
+import Nodes.DefaultNode;
+import Nodes.Node;
+import Nodes.NodeType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.EnumMap;

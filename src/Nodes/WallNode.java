@@ -1,9 +1,13 @@
+package Nodes;
+
+import Nodes.AbstractNode;
+
 import java.awt.*;
 
-public class StartNode extends AbstractNode
+public class WallNode extends AbstractNode
 {
 
-    protected StartNode(final Point cartesianCoordinates, final NodeType nodeType) {
+    public WallNode(final Point cartesianCoordinates, final NodeType nodeType) {
 	super(cartesianCoordinates, nodeType);
     }
 

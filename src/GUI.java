@@ -1,3 +1,6 @@
+import Nodes.NodeType;
+import Nodes.WallNode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

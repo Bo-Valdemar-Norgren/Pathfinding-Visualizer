@@ -1,23 +1,23 @@
+package Nodes;
+
+import Nodes.AbstractNode;
+
 import java.awt.*;
 
-public class DefaultNode extends AbstractNode
+public class EndNode extends AbstractNode
 {
     private boolean hasBeenVisited;
 
-    protected DefaultNode(final Point cartesianCoordinates, final NodeType nodeType) {
+    public EndNode(final Point cartesianCoordinates, final NodeType nodeType) {
 	super(cartesianCoordinates, nodeType);
 	this.hasBeenVisited = false;
     }
 
     @Override public NodeType getNodeType() {
-	return nodeType;
+	return null;
     }
 
     @Override public Point getCartesianCoordinates() {
-	return cartesianCoordinates;
-    }
-
-    public boolean hasBeenVisited() {
-	return hasBeenVisited;
+	return null;
     }
 }
