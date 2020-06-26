@@ -13,10 +13,10 @@ public class GUI extends JFrame {
         this.setTitle("Pathfinding Visualizer");
         this.setSize(658,680);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
         this.setResizable(false);
         this.board = new Board();
         this.setContentPane(board);
+        this.setVisible(true);
 
         MouseMoves move = new MouseMoves();
         this.addMouseMotionListener(move);

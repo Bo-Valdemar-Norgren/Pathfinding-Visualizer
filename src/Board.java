@@ -26,7 +26,6 @@ public class Board extends JPanel
 		nodes[x][y] = new DefaultNode(coordinates, NodeType.UNVISITED);
 	    }
 	}
-
     }
     @Override
     protected void paintComponent(Graphics g) {

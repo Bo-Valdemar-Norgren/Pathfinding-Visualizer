@@ -9,5 +9,4 @@ public abstract class AbstractNode implements Node
 	this.cartesianCoordinates = cartesianCoordinates;
 	this.nodeType = nodeType;
     }
-
 }
