@@ -37,7 +37,13 @@ public class GUI extends JFrame {
 
         @Override public void mouseDragged(final MouseEvent mouseEvent) {
             updateCursorCoordinates(mouseEvent);
-            updateSelectedNode();
+            if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+                updateSelectedNode();
+            }
+            else if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+                replaceSelectedNodeWithDefaultNode();
+            }
+
         }
 
         @Override public void mouseMoved(final MouseEvent mouseEvent) {
@@ -49,7 +55,12 @@ public class GUI extends JFrame {
     {
 
         @Override public void mouseClicked(final MouseEvent mouseEvent) {
-            updateSelectedNode();
+            if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+                updateSelectedNode();
+            }
+            else if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+                replaceSelectedNodeWithDefaultNode();
+            }
         }
 
         @Override public void mousePressed(final MouseEvent mouseEvent) {
@@ -89,6 +100,11 @@ public class GUI extends JFrame {
         startMenu.add(start);
         startMenu.add(clear);
 
+        JMenuItem AStar = new JMenuItem("A* Search");
+        JMenuItem dijkstra = new JMenuItem("Dijkstra's algorithm");
+        algoMenu.add(AStar);
+        algoMenu.add(dijkstra);
+
         menuBar.add(startMenu);
         menuBar.add(nodeMenu);
         menuBar.add(algoMenu);
@@ -99,6 +115,13 @@ public class GUI extends JFrame {
         if (cursorOnNode()) {
             Point coordinates = getSelectedNodeCoordinates();
             board.setNode(coordinates, selectedNodeType);
+        }
+    }
+
+    private void replaceSelectedNodeWithDefaultNode() {
+        if (cursorOnNode()) {
+            Point coordinates = getSelectedNodeCoordinates();
+            board.setNode(coordinates, NodeType.UNVISITED);
         }
     }
 

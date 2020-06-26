@@ -22,4 +22,8 @@ public class DefaultNode extends AbstractNode
     public boolean hasBeenVisited() {
 	return hasBeenVisited;
     }
+
+    public void markAsVisited() {
+        hasBeenVisited = true;
+    }
 }
