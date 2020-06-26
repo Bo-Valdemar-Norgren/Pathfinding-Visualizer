@@ -32,7 +32,7 @@ public class GUI extends JFrame {
 
         @Override public void mouseDragged(final MouseEvent mouseEvent) {
             updateCursorCoordinates(mouseEvent);
-            updateClickedNode();
+            updateSelectedNode();
         }
 
         @Override public void mouseMoved(final MouseEvent mouseEvent) {
@@ -44,7 +44,7 @@ public class GUI extends JFrame {
     {
 
         @Override public void mouseClicked(final MouseEvent mouseEvent) {
-            updateClickedNode();
+            updateSelectedNode();
         }
 
         @Override public void mousePressed(final MouseEvent mouseEvent) {
@@ -63,9 +63,9 @@ public class GUI extends JFrame {
 
         }
     }
-    private void updateClickedNode() {
+    private void updateSelectedNode() {
         if (cursorOnNode()) {
-            Point nodePoint = selectedNodePoint();
+            Point nodePoint = getSelectedNodePoint();
             int x = nodePoint.x;
             int y = nodePoint.y;
             board.setSquareType(x, y, currentSquareTypeSelected);
@@ -73,11 +73,11 @@ public class GUI extends JFrame {
     }
 
     private boolean cursorOnNode() {
-        Point point = selectedNodePoint();
+        Point point = getSelectedNodePoint();
         return point.x != -1 && point.y != -1;
     }
 
-    private Point selectedNodePoint() {
+    private Point getSelectedNodePoint() {
         int boardHeight = board.getBoardHeight();
         int boardWidth = board.getBoardWidth();
         int squareSize = Board.SQUARESIZE;
