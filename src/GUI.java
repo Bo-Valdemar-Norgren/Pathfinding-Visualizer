@@ -5,9 +5,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class GUI extends JFrame {
-    Board board;
-    int mx;
-    int my;
+    private Board board;
+    private SquareType currentSquareTypeSelected;
+    private int mx;
+    private int my;
 
     public GUI() {
         this.setTitle("Pathfinding Visualizer");
@@ -16,6 +17,7 @@ public class GUI extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.board = new Board();
+        this.currentSquareTypeSelected = SquareType.BLOCKED;
         this.setContentPane(board);
 
         MouseMoves move = new MouseMoves();
@@ -30,13 +32,7 @@ public class GUI extends JFrame {
 
         @Override public void mouseDragged(final MouseEvent mouseEvent) {
             updateCursorCoordinates(mouseEvent);
-
-            if (cursorOnNode()) {
-                Point nodePoint = selectedNodePoint();
-                int x = nodePoint.x;
-                int y = nodePoint.y;
-                board.setSquareType(x, y, SquareType.BLOCKED);
-            }
+            updateClickedNode();
         }
 
         @Override public void mouseMoved(final MouseEvent mouseEvent) {
@@ -48,15 +44,7 @@ public class GUI extends JFrame {
     {
 
         @Override public void mouseClicked(final MouseEvent mouseEvent) {
-            if (cursorOnNode()) {
-                Point nodePoint = selectedNodePoint();
-                int x = nodePoint.x;
-                int y = nodePoint.y;
-                board.setSquareType(x, y, SquareType.BLOCKED);
-            }
-            else {
-                System.out.println("Cursor not on any node!");
-            }
+            updateClickedNode();
         }
 
         @Override public void mousePressed(final MouseEvent mouseEvent) {
@@ -73,6 +61,14 @@ public class GUI extends JFrame {
 
         @Override public void mouseExited(final MouseEvent mouseEvent) {
 
+        }
+    }
+    private void updateClickedNode() {
+        if (cursorOnNode()) {
+            Point nodePoint = selectedNodePoint();
+            int x = nodePoint.x;
+            int y = nodePoint.y;
+            board.setSquareType(x, y, currentSquareTypeSelected);
         }
     }
 
@@ -98,5 +94,9 @@ public class GUI extends JFrame {
     public void updateCursorCoordinates(MouseEvent mouseEvent) {
         mx = mouseEvent.getX();
         my = mouseEvent.getY();
+    }
+
+    public void setCurrentSquareTypeSelected (SquareType squareType) {
+        currentSquareTypeSelected = squareType;
     }
 }
