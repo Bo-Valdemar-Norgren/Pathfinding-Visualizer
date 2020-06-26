@@ -4,25 +4,26 @@ import java.util.EnumMap;
 
 public class Board extends JPanel
 {
-    public SquareType[][] squares;
+    public Node[][] nodes;
     public static final int SQUARESIZE = 16;
-    private EnumMap<SquareType, Color> squareColors;
+    private EnumMap<NodeType, Color> nodeColors;
     private int boardWidth, boardHeight;
 
     public Board() {
         this.boardWidth = 40;
 	this.boardHeight = 40;
-	this.squares = new SquareType[boardWidth][boardHeight];
-	this.squareColors = new EnumMap<>(SquareType.class);
-	squareColors.put(SquareType.EMPTY, Color.LIGHT_GRAY);
-	squareColors.put(SquareType.VISITED, Color.GREEN);
-	squareColors.put(SquareType.BLOCKED, Color.BLACK);
-	squareColors.put(SquareType.START, Color.BLUE);
-	squareColors.put(SquareType.END, Color.RED);
+	this.nodes = new Node[boardWidth][boardHeight];
+	this.nodeColors = new EnumMap<>(NodeType.class);
+	nodeColors.put(NodeType.UNVISITED, Color.LIGHT_GRAY);
+	nodeColors.put(NodeType.VISITED, Color.GREEN);
+	nodeColors.put(NodeType.WALL, Color.BLACK);
+	nodeColors.put(NodeType.START, Color.BLUE);
+	nodeColors.put(NodeType.END, Color.RED);
 
 	for (int y = 0; y < boardHeight; y++) {
 	    for (int x = 0; x < boardWidth; x++) {
-	        squares[x][y] = SquareType.EMPTY;
+	        Point coordinates = new Point(x, y);
+		nodes[x][y] = new DefaultNode(coordinates, NodeType.UNVISITED);
 	    }
 	}
 
@@ -34,7 +35,9 @@ public class Board extends JPanel
 
         for (int y = 0; y < boardHeight; y++) {
             for (int x = 0; x < boardWidth; x++) {
-		g2d.setColor(squareColors.get(getSquareAt(x,y)));
+                Point coordinates = new Point(x,y);
+                Node node = getNodeAt(coordinates);
+		g2d.setColor(nodeColors.get(node.getNodeType()));
 		g2d.fillRect(x*SQUARESIZE, y*SQUARESIZE, SQUARESIZE, SQUARESIZE);
 		g2d.setColor(Color.GRAY);
 		g2d.drawRect(x*SQUARESIZE, y*SQUARESIZE, SQUARESIZE, SQUARESIZE);
@@ -42,12 +45,15 @@ public class Board extends JPanel
 	}
     }
 
-    public SquareType getSquareAt(int x, int y) {
-        return squares[x][y];
+    public Node getNodeAt(Point coordinates) {
+        int x = coordinates.x;
+        int y = coordinates.y;
+
+        return nodes[x][y];
     }
 
-    public void setSquareType(int x, int y, SquareType squareType) {
-        squares[x][y] = squareType;
+    public void setNode(Point coordinates, Node node) {
+	nodes[coordinates.x][coordinates.y] = node;
         repaint();
     }
 

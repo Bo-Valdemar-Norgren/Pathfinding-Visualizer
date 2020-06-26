@@ -6,7 +6,6 @@ import java.awt.event.MouseMotionListener;
 
 public class GUI extends JFrame {
     private Board board;
-    private SquareType currentSquareTypeSelected;
     private int mx;
     private int my;
 
@@ -17,7 +16,6 @@ public class GUI extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.board = new Board();
-        this.currentSquareTypeSelected = SquareType.BLOCKED;
         this.setContentPane(board);
 
         MouseMoves move = new MouseMoves();
@@ -65,10 +63,9 @@ public class GUI extends JFrame {
     }
     private void updateSelectedNode() {
         if (cursorOnNode()) {
-            Point nodePoint = getSelectedNodePoint();
-            int x = nodePoint.x;
-            int y = nodePoint.y;
-            board.setSquareType(x, y, currentSquareTypeSelected);
+            Point coordinates = getSelectedNodePoint();
+            WallNode wallNode = new WallNode(coordinates, NodeType.WALL);
+            board.setNode(coordinates, wallNode);
         }
     }
 
@@ -94,9 +91,5 @@ public class GUI extends JFrame {
     public void updateCursorCoordinates(MouseEvent mouseEvent) {
         mx = mouseEvent.getX();
         my = mouseEvent.getY();
-    }
-
-    public void setCurrentSquareTypeSelected (SquareType squareType) {
-        currentSquareTypeSelected = squareType;
     }
 }
