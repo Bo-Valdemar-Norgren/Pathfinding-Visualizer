@@ -63,25 +63,25 @@ public class GUI extends JFrame {
     }
     private void updateSelectedNode() {
         if (cursorOnNode()) {
-            Point coordinates = getSelectedNodePoint();
+            Point coordinates = getSelectedNodeCoordinates();
             WallNode wallNode = new WallNode(coordinates, NodeType.WALL);
             board.setNode(coordinates, wallNode);
         }
     }
 
     private boolean cursorOnNode() {
-        Point point = getSelectedNodePoint();
+        Point point = getSelectedNodeCoordinates();
         return point.x != -1 && point.y != -1;
     }
 
-    private Point getSelectedNodePoint() {
+    private Point getSelectedNodeCoordinates() {
         int boardHeight = board.getBoardHeight();
         int boardWidth = board.getBoardWidth();
         int squareSize = Board.SQUARESIZE;
 
         for (int x = 0; x < boardHeight; x++) {
             for (int y = 0; y < boardWidth; y++) {
-                if (mx >= x*squareSize && mx < x*squareSize+squareSize+8 && my >= y*squareSize+8 && my < y*squareSize+squareSize+30) {
+                if (mx >= x*squareSize && mx < x*squareSize+squareSize+8 && my >= y*squareSize+8 && my < y*squareSize+squareSize+30) { //Magic numbers represent the pixels covered by the program frame.
                     return new Point(x,y);
                 }
             }
