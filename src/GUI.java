@@ -30,6 +30,7 @@ public class GUI extends JFrame {
 
         MouseClick click = new MouseClick();
         this.addMouseListener(click);
+
     }
     public class MouseMoves implements MouseMotionListener
     {
@@ -110,7 +111,6 @@ public class GUI extends JFrame {
         int boardHeight = board.getBoardHeight();
         int boardWidth = board.getBoardWidth();
         int squareSize = Board.SQUARESIZE;
-
 
         for (int x = 0; x < boardHeight; x++) {
             for (int y = 0; y < boardWidth; y++) {
