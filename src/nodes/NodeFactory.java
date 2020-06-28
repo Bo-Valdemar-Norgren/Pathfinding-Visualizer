@@ -1,15 +1,13 @@
-package Nodes;
+package nodes;
 
 import java.awt.*;
 
 public class NodeFactory
 {
-    public Node createNode(Point coordinates, NodeType nodeType) {
+    public AbstractNode createNode(Point coordinates, NodeType nodeType) {
 	switch(nodeType) {
-	    case UNVISITED:
-	        return new DefaultNode(coordinates, nodeType, false);
-	    case VISITED:
-	        return new DefaultNode(coordinates, nodeType, true);
+	    case DEFAULT_UNVISITED:
+	        return new DefaultNode(coordinates, nodeType);
 	    case WALL:
 	        return new WallNode(coordinates, nodeType);
 	    case START:

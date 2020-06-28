@@ -1,6 +1,6 @@
-import Nodes.Node;
-import Nodes.NodeFactory;
-import Nodes.NodeType;
+import nodes.AbstractNode;
+import nodes.NodeFactory;
+import nodes.NodeType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.util.EnumMap;
 
 public class Board extends JPanel
 {
-    public Node[][] nodes;
+    public AbstractNode[][] nodeGrid;
     public static final int SQUARESIZE = 16;
     private NodeFactory nodeFactory;
     private EnumMap<NodeType, Color> nodeColors;
@@ -17,11 +17,11 @@ public class Board extends JPanel
     public Board() {
         this.boardWidth = 40;
 	this.boardHeight = 40;
-	this.nodes = new Node[boardWidth][boardHeight];
+	this.nodeGrid = new AbstractNode[boardWidth][boardHeight];
 	this.nodeFactory = new NodeFactory();
 	this.nodeColors = new EnumMap<>(NodeType.class);
-	nodeColors.put(NodeType.UNVISITED, Color.LIGHT_GRAY);
-	nodeColors.put(NodeType.VISITED, Color.GREEN);
+	nodeColors.put(NodeType.DEFAULT_UNVISITED, Color.LIGHT_GRAY);
+	nodeColors.put(NodeType.DEFAULT_VISITED, Color.YELLOW);
 	nodeColors.put(NodeType.WALL, Color.BLACK);
 	nodeColors.put(NodeType.START, Color.BLUE);
 	nodeColors.put(NodeType.END, Color.RED);
@@ -36,7 +36,7 @@ public class Board extends JPanel
         for (int y = 0; y < boardHeight; y++) {
             for (int x = 0; x < boardWidth; x++) {
                 Point coordinates = new Point(x,y);
-                Node node = getNodeAt(coordinates);
+                AbstractNode node = getNodeAt(coordinates);
 		g2d.setColor(nodeColors.get(node.getNodeType()));
 		g2d.fillRect(x*SQUARESIZE, y*SQUARESIZE, SQUARESIZE, SQUARESIZE);
 		g2d.setColor(Color.GRAY);
@@ -45,18 +45,18 @@ public class Board extends JPanel
 	}
     }
 
-    public Node getNodeAt(Point coordinates) {
+    public AbstractNode getNodeAt(Point coordinates) {
         int x = coordinates.x;
         int y = coordinates.y;
 
-        return nodes[x][y];
+        return nodeGrid[x][y];
     }
 
     public void setNode(Point coordinates, NodeType nodeType) {
         removeSingularNodes(nodeType);
 
-        Node node = nodeFactory.createNode(coordinates, nodeType);
-	nodes[coordinates.x][coordinates.y] = node;
+        AbstractNode node = nodeFactory.createNode(coordinates, nodeType);
+	nodeGrid[coordinates.x][coordinates.y] = node;
         repaint();
     }
 
@@ -75,9 +75,9 @@ public class Board extends JPanel
     private void removeNodesOfType(NodeType nodeType) {
 	for (int y = 0; y < boardHeight; y++) {
 	    for (int x = 0; x < boardWidth; x++) {
-		if (nodes[x][y].getNodeType() == nodeType) {
+		if (nodeGrid[x][y].getNodeType() == nodeType) {
 		    Point coordinates = new Point(x, y);
-		    nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
+		    nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.DEFAULT_UNVISITED);
 		}
 	    }
 	}
@@ -95,7 +95,7 @@ public class Board extends JPanel
 	for (int y = 0; y < boardHeight; y++) {
 	    for (int x = 0; x < boardWidth; x++) {
 		Point coordinates = new Point(x, y);
-		nodes[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
+		nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.DEFAULT_UNVISITED);
 	    }
 	}
 	repaint();

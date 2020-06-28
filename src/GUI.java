@@ -1,5 +1,5 @@
 
-import Nodes.NodeType;
+import nodes.NodeType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class GUI extends JFrame {
     private int mx;
     private int my;
 
-    public GUI() {
+    public GUI() { //TODO: Break into smaller methods.
         this.setTitle("Pathfinding Visualizer");
         this.setSize(658,680);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +80,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private JMenuBar createMenu() {
+    private JMenuBar createMenu() { //TODO: Break into smaller methods.
         JMenuBar menuBar = new JMenuBar();
         JMenu nodeMenu = new JMenu("Nodes"), algoMenu = new JMenu("Algorithms"), startMenu = new JMenu("Start");
 
@@ -121,7 +121,7 @@ public class GUI extends JFrame {
     private void replaceSelectedNodeWithDefaultNode() {
         if (cursorOnNode()) {
             Point coordinates = getSelectedNodeCoordinates();
-            board.setNode(coordinates, NodeType.UNVISITED);
+            board.setNode(coordinates, NodeType.DEFAULT_UNVISITED);
         }
     }
 
