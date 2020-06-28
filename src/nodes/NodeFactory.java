@@ -15,7 +15,7 @@ public class NodeFactory
 	    case END:
 	        return new EndNode(coordinates, nodeType);
 	    default:
-	        throw new IllegalArgumentException("No such node type exists.");
+	        throw new IllegalArgumentException("No such node is allowed to be created.");
 	}
     }
 }

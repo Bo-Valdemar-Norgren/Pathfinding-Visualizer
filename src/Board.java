@@ -69,7 +69,6 @@ public class Board extends JPanel
 		removeNodesOfType(NodeType.END);
 		break;
 	}
-	repaint();
     }
 
     private void removeNodesOfType(NodeType nodeType) {
@@ -81,6 +80,7 @@ public class Board extends JPanel
 		}
 	    }
 	}
+	repaint();
     }
 
     public int getBoardWidth() {

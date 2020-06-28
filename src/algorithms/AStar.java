@@ -36,11 +36,11 @@ public class AStar
         return new ArrayList<>();
     }
 
-    private int getFinalScore(AbstractTraversableNode node) {
-        return node.getCostFromStart() + getHeuristicScore(node);
+    private int getFinalCost(AbstractTraversableNode node) {
+        return node.getCostFromStart() + getHeuristicCost(node);
     }
 
-    private int getHeuristicScore(AbstractTraversableNode node) { //TODO: Write method.
+    private int getHeuristicCost(AbstractTraversableNode node) { //TODO: Write method.
         return 0;
     }
 
