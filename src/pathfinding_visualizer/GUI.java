@@ -1,5 +1,9 @@
+package pathfinding_visualizer;
 
-import nodes.NodeType;
+import pathfinding_visualizer.algorithms.AStar;
+import pathfinding_visualizer.algorithms.Algorithm;
+import pathfinding_visualizer.nodes.AbstractTraversableNode;
+import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +14,11 @@ import java.awt.event.MouseMotionListener;
 public class GUI extends JFrame {
     private Board board;
     private NodeType selectedNodeType;
+    private Algorithm selectedAlgorithm;
     private int mx;
     private int my;
 
-    public GUI() { //TODO: Break into smaller methods.
+    public GUI() {
         this.setTitle("Pathfinding Visualizer");
         this.setSize(658,680);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +26,7 @@ public class GUI extends JFrame {
         this.selectedNodeType = NodeType.WALL;
         this.board = new Board();
         this.setContentPane(board);
+        this.selectedAlgorithm = new AStar(board);
 
         JMenuBar menuBar = createMenu();
         this.setJMenuBar(menuBar);
@@ -80,28 +86,27 @@ public class GUI extends JFrame {
         }
     }
 
-    private JMenuBar createMenu() { //TODO: Break into smaller methods.
+    private JMenuBar createMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu nodeMenu = new JMenu("Nodes"), algoMenu = new JMenu("Algorithms"), startMenu = new JMenu("Start");
+        JMenuItem wallNode = new JMenuItem("Wall node"), startNode = new JMenuItem("Start node"), endNode = new JMenuItem("End node");
 
-        JMenuItem wallNode = new JMenuItem("Wall node");
         wallNode.addActionListener(e->setSelectedNodeType(NodeType.WALL));
-        JMenuItem startNode = new JMenuItem("Start node");
         startNode.addActionListener(e->setSelectedNodeType(NodeType.START));
-        JMenuItem endNode = new JMenuItem("End node");
         endNode.addActionListener(e->setSelectedNodeType(NodeType.END));
+
         nodeMenu.add(wallNode);
         nodeMenu.add(startNode);
         nodeMenu.add(endNode);
 
-        JMenuItem start = new JMenuItem("Start");
-        JMenuItem clear = new JMenuItem("Reset");
-        clear.addActionListener(e->board.fillBoardWithDefaultNodes());
-        startMenu.add(start);
-        startMenu.add(clear);
+        JMenuItem start = new JMenuItem("Start"), reset = new JMenuItem("Reset");
+        reset.addActionListener(e->board.fillBoardWithDefaultNodes());
 
-        JMenuItem AStar = new JMenuItem("A* Search");
-        JMenuItem dijkstra = new JMenuItem("Dijkstra's algorithm");
+        startMenu.add(start);
+        startMenu.add(reset);
+
+        JMenuItem AStar = new JMenuItem("A* Search"), dijkstra = new JMenuItem("Dijkstra's algorithm");
+
         algoMenu.add(AStar);
         algoMenu.add(dijkstra);
 

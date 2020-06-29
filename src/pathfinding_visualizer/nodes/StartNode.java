@@ -1,4 +1,4 @@
-package nodes;
+package pathfinding_visualizer.nodes;
 import java.awt.*;
 
 public class StartNode extends AbstractTraversableNode

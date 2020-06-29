@@ -1,4 +1,4 @@
-package nodes;
+package pathfinding_visualizer.nodes;
 
 import java.awt.*;
 
@@ -7,7 +7,8 @@ public class NodeFactory
     public AbstractNode createNode(Point coordinates, NodeType nodeType) {
 	switch(nodeType) {
 	    case DEFAULT_UNVISITED:
-	        return new DefaultNode(coordinates, nodeType);
+	    case DEFAULT_VISITED:
+		return new DefaultNode(coordinates, nodeType);
 	    case WALL:
 	        return new WallNode(coordinates, nodeType);
 	    case START:

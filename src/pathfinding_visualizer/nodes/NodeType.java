@@ -1,4 +1,4 @@
-package nodes;
+package pathfinding_visualizer.nodes;
 
 public enum NodeType
 {
