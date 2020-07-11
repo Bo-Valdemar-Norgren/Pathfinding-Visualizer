@@ -4,6 +4,7 @@ import pathfinding_visualizer.nodes.AbstractNode;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeFactory;
 import pathfinding_visualizer.nodes.NodeType;
+import pathfinding_visualizer.nodes.WallNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,33 +58,37 @@ public class Board extends JPanel
         return nodeGrid[x][y];
     }
 
-    public void setNode(Point coordinates, NodeType nodeType) { //TODO: Rewrite this function
-        removeSingularNodes(nodeType);
-        if (nodeType == NodeType.START) {
-            DefaultNode startNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
-            setStartNode(startNode);
-	} else if (nodeType == NodeType.END) {
-	    DefaultNode endNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
-	    setEndNode(endNode);
+    public void setNode(Point coordinates, NodeType nodeType) {
+        AbstractNode currentNode = getNodeAt(coordinates);
+        NodeType currentNodeType = currentNode.getNodeType();
+        if (currentNodeType == NodeType.START) {
+            startNode = null;
+	} else if (currentNodeType == NodeType.END) {
+            endNode = null;
 	}
-
-        //If start/end node is overwritten, the class variables need to be updated.
-
-	AbstractNode node = nodeFactory.createNode(coordinates, nodeType);
-	nodeGrid[coordinates.x][coordinates.y] = node;
+        switch (nodeType) {
+	    case START:
+	        removeNodesOfType(NodeType.START); // Remove old start node
+	        DefaultNode startNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
+	        setStartNode(startNode);
+		nodeGrid[coordinates.x][coordinates.y] = startNode;
+		break;
+	    case END:
+		removeNodesOfType(NodeType.END); // Remove old end node
+		DefaultNode endNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
+		setEndNode(endNode);
+		nodeGrid[coordinates.x][coordinates.y] = endNode;
+		break;
+	    case WALL:
+		WallNode wallNode = (WallNode) nodeFactory.createNode(coordinates, nodeType);
+		nodeGrid[coordinates.x][coordinates.y] = wallNode;
+		break;
+	    default:
+	        throw new IllegalArgumentException("No such node exists.");
+	}
         repaint();
     }
 
-    private void removeSingularNodes(NodeType nodeType) {
-	switch (nodeType) {
-	    case START:
-		removeNodesOfType(NodeType.START);
-		break;
-	    case END:
-		removeNodesOfType(NodeType.END);
-		break;
-	}
-    }
 
     private void removeNodesOfType(NodeType nodeType) {
 	for (int y = 0; y < boardHeight; y++) {
