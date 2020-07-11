@@ -24,8 +24,8 @@ public class AStar implements Algorithm
     public AStar(Board board, DefaultNode startNode, DefaultNode endNode) {
         this.board = board;
         this.nodeGrid = board.getNodeGrid();
-        this.startNode = board.getStartNode();
-        this.endNode = board.getEndNode();
+        this.startNode = startNode;
+        this.endNode = endNode;
 
         gridRows = nodeGrid.length;
         gridCols = nodeGrid[0].length;
@@ -34,7 +34,7 @@ public class AStar implements Algorithm
         openNodes.add(startNode);
     }
 
-    public ArrayList<AbstractTraversableNode> getNeighbours(AbstractTraversableNode node) {
+    private ArrayList<AbstractTraversableNode> getNeighbours(AbstractTraversableNode node) {
         Point nodeCoordinates = node.getCartesianCoordinates();
         int nodeX = nodeCoordinates.x;
         int nodeY = nodeCoordinates.y;
@@ -57,7 +57,7 @@ public class AStar implements Algorithm
         return neighbours;
     }
 
-    @Override public void startSearch() {
+    public void startSearch() {
 
     }
 }
