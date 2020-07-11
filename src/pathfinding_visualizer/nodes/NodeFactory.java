@@ -7,16 +7,13 @@ public class NodeFactory
     public AbstractNode createNode(Point coordinates, NodeType nodeType) {
 	switch(nodeType) {
 	    case DEFAULT_UNVISITED:
-	    case DEFAULT_VISITED:
+	    case START:
+	    case END:
 		return new DefaultNode(coordinates, nodeType);
 	    case WALL:
 	        return new WallNode(coordinates, nodeType);
-	    case START:
-	        return new StartNode(coordinates, nodeType);
-	    case END:
-	        return new EndNode(coordinates, nodeType);
 	    default:
-	        throw new IllegalArgumentException("No such node is allowed to be created.");
+	        throw new IllegalArgumentException("No such node exists.");
 	}
     }
 }

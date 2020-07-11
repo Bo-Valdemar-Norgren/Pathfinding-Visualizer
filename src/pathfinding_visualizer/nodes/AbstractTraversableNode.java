@@ -4,36 +4,20 @@ import java.awt.*;
 
 public abstract class AbstractTraversableNode extends AbstractNode implements Comparable<AbstractTraversableNode>
 {
-    protected Point cartesianCoordinates;
-    protected NodeType nodeType;
-    protected int costFromStart;
+    protected int gCost;
+    protected int hCost;
+    protected int fCost;
 
     public AbstractTraversableNode(final Point cartesianCoordinates, final NodeType nodeType) {
 	super(cartesianCoordinates, nodeType);
-	this.costFromStart = 0;
+	this.gCost = 0;
+	this.hCost = 0;
+	this.fCost = 0;
     }
 
-    public int getCostFromStart() {
-	return costFromStart;
-    }
-    public void setCostFromStart(int costFromStart) {
-        this.costFromStart = costFromStart;
-    }
-
-    public boolean equals(AbstractTraversableNode node) {
-	return this.getCostFromStart() == node.getCostFromStart();
-    }
 
    public int compareTo(final AbstractTraversableNode node) {
-	if (this.equals(node)) {
-	    return 0;
-	}
-	else if (this.getCostFromStart() > node.getCostFromStart()) {
-	    return 1;
-	}
-	else {
-	    return -1;
-	}
+	return this.fCost - node.fCost;
     }
 
 }

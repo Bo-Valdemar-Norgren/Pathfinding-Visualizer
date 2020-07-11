@@ -4,9 +4,7 @@ import pathfinding_visualizer.Board;
 import pathfinding_visualizer.nodes.AbstractNode;
 import pathfinding_visualizer.nodes.AbstractTraversableNode;
 import pathfinding_visualizer.nodes.DefaultNode;
-import pathfinding_visualizer.nodes.EndNode;
 import pathfinding_visualizer.nodes.NodeType;
-import pathfinding_visualizer.nodes.StartNode;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,19 +12,16 @@ import java.util.PriorityQueue;
 
 public class AStar implements Algorithm
 {
-    private static int DEFAULT_HV_COST = 10;
-    private static int DEFAULT_DIAGONAL_COST = 14;
-
     private Board board;
     private AbstractNode[][] nodeGrid;
     private PriorityQueue<AbstractTraversableNode> openNodes;
     private boolean[][] closedNodes;
     private int gridRows;
     private int gridCols;
-    private StartNode startNode;
-    private EndNode endNode;
+    private DefaultNode startNode;
+    private DefaultNode endNode;
 
-    public AStar(Board board) {
+    public AStar(Board board, DefaultNode startNode, DefaultNode endNode) {
         this.board = board;
         this.nodeGrid = board.getNodeGrid();
         this.startNode = board.getStartNode();
@@ -36,11 +31,7 @@ public class AStar implements Algorithm
         gridCols = nodeGrid[0].length;
         closedNodes = new boolean[gridRows][gridCols];
         openNodes = new PriorityQueue<>();
-        try {
-            openNodes.add(startNode);
-        } catch (NullPointerException e) {
-            System.out.println("No start node exists.");
-        }
+        openNodes.add(startNode);
     }
 
     public ArrayList<AbstractTraversableNode> getNeighbours(AbstractTraversableNode node) {
@@ -65,15 +56,6 @@ public class AStar implements Algorithm
 
         return neighbours;
     }
-
-    private int getFinalCost(AbstractTraversableNode node) {
-        return node.getCostFromStart() + getHeuristicCost(node);
-    }
-
-    private int getHeuristicCost(AbstractTraversableNode node) { //TODO: Write method.
-        return 0;
-    }
-
 
     @Override public void startSearch() {
 

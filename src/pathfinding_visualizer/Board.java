@@ -1,10 +1,9 @@
 package pathfinding_visualizer;
 
 import pathfinding_visualizer.nodes.AbstractNode;
-import pathfinding_visualizer.nodes.EndNode;
+import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeFactory;
 import pathfinding_visualizer.nodes.NodeType;
-import pathfinding_visualizer.nodes.StartNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +16,12 @@ public class Board extends JPanel
     private NodeFactory nodeFactory;
     private EnumMap<NodeType, Color> nodeColors;
     private int boardWidth, boardHeight;
-    private StartNode startNode = null;
-    private EndNode endNode = null;
+    private DefaultNode startNode = null;
+    private DefaultNode endNode = null;
 
     public Board() {
-        this.boardWidth = 35;
-	this.boardHeight = 35;
+        this.boardWidth = 40;
+	this.boardHeight = 40;
 	this.nodeGrid = new AbstractNode[boardWidth][boardHeight];
 	this.nodeFactory = new NodeFactory();
 	this.nodeColors = new EnumMap<>(NodeType.class);
@@ -51,24 +50,24 @@ public class Board extends JPanel
 	}
     }
 
-    public AbstractNode getNodeAt(Point coordinates) { //TODO: Try/Catch
+    public AbstractNode getNodeAt(Point coordinates) {
         int x = coordinates.x;
         int y = coordinates.y;
 
         return nodeGrid[x][y];
     }
 
-    public void setNode(Point coordinates, NodeType nodeType) { //Rewrite this function
+    public void setNode(Point coordinates, NodeType nodeType) { //TODO: Rewrite this function
         removeSingularNodes(nodeType);
         if (nodeType == NodeType.START) {
-            StartNode startNode = new StartNode(coordinates, nodeType);
+            DefaultNode startNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
             setStartNode(startNode);
-	}
-
-	if (nodeType == NodeType.END) {
-	    EndNode endNode = new EndNode(coordinates, nodeType);
+	} else if (nodeType == NodeType.END) {
+	    DefaultNode endNode = (DefaultNode) nodeFactory.createNode(coordinates, nodeType);
 	    setEndNode(endNode);
 	}
+
+        //If start/end node is overwritten, the class variables need to be updated.
 
 	AbstractNode node = nodeFactory.createNode(coordinates, nodeType);
 	nodeGrid[coordinates.x][coordinates.y] = node;
@@ -105,11 +104,11 @@ public class Board extends JPanel
     public int getBoardHeight() {
 	return boardHeight;
     }
-    public void setStartNode(StartNode startNode) {
+    public void setStartNode(DefaultNode startNode) {
         this.startNode = startNode;
     }
 
-    public void setEndNode(EndNode endNode) {
+    public void setEndNode(DefaultNode endNode) {
 	this.endNode = endNode;
     }
 
@@ -126,11 +125,11 @@ public class Board extends JPanel
     public AbstractNode[][] getNodeGrid() {
         return nodeGrid;
     }
-    public StartNode getStartNode() {
+    public DefaultNode getStartNode() {
         return startNode;
     }
 
-    public EndNode getEndNode() {
+    public DefaultNode getEndNode() {
         return endNode;
     }
 }
