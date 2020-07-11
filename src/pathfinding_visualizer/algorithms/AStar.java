@@ -2,7 +2,6 @@ package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
 import pathfinding_visualizer.nodes.AbstractNode;
-import pathfinding_visualizer.nodes.AbstractTraversableNode;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
@@ -14,7 +13,7 @@ public class AStar implements Algorithm
 {
     private Board board;
     private AbstractNode[][] nodeGrid;
-    private PriorityQueue<AbstractTraversableNode> openNodes;
+    private PriorityQueue<DefaultNode> openNodes;
     private boolean[][] closedNodes;
     private int gridRows;
     private int gridCols;
@@ -34,12 +33,12 @@ public class AStar implements Algorithm
         openNodes.add(startNode);
     }
 
-    private ArrayList<AbstractTraversableNode> getNeighbours(AbstractTraversableNode node) {
+    private ArrayList<DefaultNode> getNeighbours(DefaultNode node) {
         Point nodeCoordinates = node.getCartesianCoordinates();
         int nodeX = nodeCoordinates.x;
         int nodeY = nodeCoordinates.y;
 
-        ArrayList<AbstractTraversableNode> neighbours = new ArrayList<>();
+        ArrayList<DefaultNode> neighbours = new ArrayList<>();
 
         for (int y = nodeY-1; y<=nodeY+1; y++) {
             for (int x = nodeX-1; x<=nodeX+1; x++) {
@@ -48,7 +47,7 @@ public class AStar implements Algorithm
                     AbstractNode currentNode = board.getNodeAt(currentCoordinates);
                     NodeType currentNodeType = currentNode.getNodeType();
                     if (!nodeCoordinates.equals(currentCoordinates) && currentNodeType != NodeType.WALL) {
-                        neighbours.add((AbstractTraversableNode) currentNode);
+                        neighbours.add((DefaultNode) currentNode);
                     }
                 }
             }
