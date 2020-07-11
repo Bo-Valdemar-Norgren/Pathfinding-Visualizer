@@ -111,7 +111,7 @@ public class GUI extends JFrame {
 
         JMenuItem AStar = new JMenuItem("A* Search"), dijkstra = new JMenuItem("Dijkstra's algorithm");
 
-        AStar.addActionListener(e->updateSelectedAlgorithm(AlgorithmType.ASTAR));
+        AStar.addActionListener(e->setSelectedAlgorithm(AlgorithmType.ASTAR));
 
         algoMenu.add(AStar);
         algoMenu.add(dijkstra);
@@ -122,7 +122,7 @@ public class GUI extends JFrame {
         return menuBar;
     }
 
-    private void updateSelectedAlgorithm(AlgorithmType algoType) {
+    private void setSelectedAlgorithm(AlgorithmType algoType) {
         DefaultNode startNode = board.getStartNode();
         DefaultNode endNode = board.getEndNode();
         if (startNode != null && endNode != null) {
