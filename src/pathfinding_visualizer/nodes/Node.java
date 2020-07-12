@@ -2,12 +2,12 @@ package pathfinding_visualizer.nodes;
 
 import java.awt.*;
 
-public abstract class AbstractNode
+public abstract class Node
 {
     protected Point cartesianCoordinates;
     protected NodeType nodeType;
 
-    public AbstractNode(Point cartesianCoordinates, NodeType nodeType) {
+    public Node(Point cartesianCoordinates, NodeType nodeType) {
 	this.cartesianCoordinates = cartesianCoordinates;
 	this.nodeType = nodeType;
     }

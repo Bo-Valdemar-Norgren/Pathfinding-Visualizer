@@ -2,7 +2,7 @@ package pathfinding_visualizer.nodes;
 
 import java.awt.*;
 
-public class DefaultNode extends AbstractNode implements Comparable<DefaultNode>
+public class DefaultNode extends Node implements Comparable<DefaultNode>
 {
     private int gCost;
     private int hCost;

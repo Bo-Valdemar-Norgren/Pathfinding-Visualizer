@@ -1,7 +1,7 @@
 package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
-import pathfinding_visualizer.nodes.AbstractNode;
+import pathfinding_visualizer.nodes.Node;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 public class AStar implements Algorithm
 {
     private Board board;
-    private AbstractNode[][] nodeGrid;
+    private Node[][] nodeGrid;
     private PriorityQueue<DefaultNode> openNodes;
     private boolean[][] closedNodes;
     private int gridRows;
@@ -45,7 +45,7 @@ public class AStar implements Algorithm
             for (int x = nodeX-1; x<=nodeX+1; x++) {
                 if (y >= 0 && y < gridCols && x >= 0 && x < gridRows) { //if in bounds
                     Point currentCoordinates = new Point(x, y);
-                    AbstractNode currentNode = board.getNodeAt(currentCoordinates);
+                    Node currentNode = board.getNodeAt(currentCoordinates);
                     NodeType currentNodeType = currentNode.getNodeType();
                     if (!nodeCoordinates.equals(currentCoordinates) && currentNodeType != NodeType.WALL) {
                         neighbours.add((DefaultNode) currentNode);

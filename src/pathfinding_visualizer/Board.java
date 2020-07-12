@@ -1,6 +1,6 @@
 package pathfinding_visualizer;
 
-import pathfinding_visualizer.nodes.AbstractNode;
+import pathfinding_visualizer.nodes.Node;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeFactory;
 import pathfinding_visualizer.nodes.NodeType;
@@ -12,7 +12,7 @@ import java.util.EnumMap;
 
 public class Board extends JPanel
 {
-    public AbstractNode[][] nodeGrid;
+    public Node[][] nodeGrid;
     public static final int SQUARESIZE = 16;
     private NodeFactory nodeFactory;
     private EnumMap<NodeType, Color> nodeColors;
@@ -23,7 +23,7 @@ public class Board extends JPanel
     public Board() {
         this.boardWidth = 40;
 	this.boardHeight = 40;
-	this.nodeGrid = new AbstractNode[boardWidth][boardHeight];
+	this.nodeGrid = new Node[boardWidth][boardHeight];
 	this.nodeFactory = new NodeFactory();
 	this.nodeColors = new EnumMap<>(NodeType.class);
 	nodeColors.put(NodeType.DEFAULT_UNVISITED, Color.LIGHT_GRAY);
@@ -42,7 +42,7 @@ public class Board extends JPanel
         for (int y = 0; y < boardHeight; y++) {
             for (int x = 0; x < boardWidth; x++) {
                 Point coordinates = new Point(x,y);
-                AbstractNode node = getNodeAt(coordinates);
+                Node node = getNodeAt(coordinates);
 		g2d.setColor(nodeColors.get(node.getNodeType()));
 		g2d.fillRect(x*SQUARESIZE, y*SQUARESIZE, SQUARESIZE, SQUARESIZE);
 		g2d.setColor(Color.GRAY);
@@ -51,7 +51,7 @@ public class Board extends JPanel
 	}
     }
 
-    public AbstractNode getNodeAt(Point coordinates) {
+    public Node getNodeAt(Point coordinates) {
         int x = coordinates.x;
         int y = coordinates.y;
 
@@ -59,7 +59,7 @@ public class Board extends JPanel
     }
 
     public void setNode(Point coordinates, NodeType nodeType) {
-        AbstractNode currentNode = getNodeAt(coordinates);
+        Node currentNode = getNodeAt(coordinates);
         NodeType currentNodeType = currentNode.getNodeType();
         if (currentNodeType == NodeType.START) {
             startNode = null;
@@ -127,7 +127,7 @@ public class Board extends JPanel
 	repaint();
     }
 
-    public AbstractNode[][] getNodeGrid() {
+    public Node[][] getNodeGrid() {
         return nodeGrid;
     }
     public DefaultNode getStartNode() {
