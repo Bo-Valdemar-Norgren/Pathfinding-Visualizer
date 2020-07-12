@@ -17,8 +17,8 @@ public class Board extends JPanel
     private NodeFactory nodeFactory;
     private EnumMap<NodeType, Color> nodeColors;
     private int boardWidth, boardHeight;
-    private DefaultNode startNode = null;
-    private DefaultNode endNode = null;
+    private DefaultNode startNode;
+    private DefaultNode endNode;
 
     public Board() {
         this.boardWidth = 40;

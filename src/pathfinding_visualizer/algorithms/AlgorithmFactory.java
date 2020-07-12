@@ -5,7 +5,6 @@ import pathfinding_visualizer.nodes.DefaultNode;
 
 public class AlgorithmFactory
 {
-
     public Algorithm createAlgorithm(Board board, AlgorithmType algoType) {
         switch (algoType) {
 	    case ASTAR:

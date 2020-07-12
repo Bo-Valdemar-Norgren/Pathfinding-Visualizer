@@ -7,6 +7,7 @@ import pathfinding_visualizer.nodes.NodeType;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 public class AStar implements Algorithm
@@ -23,8 +24,8 @@ public class AStar implements Algorithm
     public AStar(Board board, DefaultNode startNode, DefaultNode endNode) {
         this.board = board;
         this.nodeGrid = board.getNodeGrid();
-        this.startNode = startNode;
-        this.endNode = endNode;
+        this.startNode = Objects.requireNonNull(startNode, "There must exist a start node.");
+        this.endNode = Objects.requireNonNull(endNode, "There must exist an end node.");
 
         gridRows = nodeGrid.length;
         gridCols = nodeGrid[0].length;
@@ -57,6 +58,6 @@ public class AStar implements Algorithm
     }
 
     public void startSearch() {
-
+        System.out.println("Started search.");
     }
 }

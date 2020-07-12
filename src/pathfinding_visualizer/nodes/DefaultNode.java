@@ -8,8 +8,8 @@ public class DefaultNode extends AbstractNode implements Comparable<DefaultNode>
     private int hCost;
     private int fCost;
 
-    public DefaultNode(final Point cartesianCoordinates, final NodeType nodeType) {
-	super(cartesianCoordinates, nodeType);
+    public DefaultNode(Point cartesianCoordinates, NodeType nodeType) {
+        super(cartesianCoordinates, nodeType);
         this.gCost = 0;
         this.hCost = 0;
         this.fCost = 0;
@@ -17,5 +17,9 @@ public class DefaultNode extends AbstractNode implements Comparable<DefaultNode>
 
     @Override public int compareTo(final DefaultNode node) {
         return this.fCost - node.fCost;
+    }
+
+    public void setNodeType(NodeType nodeType) {
+       this.nodeType = nodeType;
     }
 }

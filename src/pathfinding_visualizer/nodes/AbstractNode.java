@@ -1,7 +1,5 @@
 package pathfinding_visualizer.nodes;
 
-import org.w3c.dom.Node;
-
 import java.awt.*;
 
 public abstract class AbstractNode
@@ -18,12 +16,7 @@ public abstract class AbstractNode
 	return nodeType;
     }
 
-    public void setNodeType(NodeType nodeType) {
-        this.nodeType = nodeType;
-    }
-
     public Point getCartesianCoordinates() {
 	return cartesianCoordinates;
     }
-
 }

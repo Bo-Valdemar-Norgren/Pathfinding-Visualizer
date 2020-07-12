@@ -1,10 +1,8 @@
 package pathfinding_visualizer;
 
-import pathfinding_visualizer.algorithms.AStar;
 import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.AlgorithmFactory;
 import pathfinding_visualizer.algorithms.AlgorithmType;
-import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;
@@ -17,7 +15,7 @@ public class GUI extends JFrame {
     private Board board;
     private AlgorithmFactory algorithmFactory;
     private NodeType selectedNodeType;
-    private Algorithm selectedAlgorithm;
+    private AlgorithmType selectedAlgorithmType;
     private int mx;
     private int my;
 
@@ -30,7 +28,6 @@ public class GUI extends JFrame {
         this.board = new Board();
         this.algorithmFactory = new AlgorithmFactory();
         this.setContentPane(board);
-        this.selectedAlgorithm = null;
 
         JMenuBar menuBar = createMenu();
         this.setJMenuBar(menuBar);
@@ -104,14 +101,26 @@ public class GUI extends JFrame {
         nodeMenu.add(endNode);
 
         JMenuItem start = new JMenuItem("Start"), reset = new JMenuItem("Reset");
-        reset.addActionListener(e->board.fillBoardWithDefaultNodes());
+
+        reset.addActionListener(actionEvent -> board.fillBoardWithDefaultNodes());
+        start.addActionListener(actionEvent -> {
+            try {
+                Algorithm selectedAlgorithm = algorithmFactory.createAlgorithm(board, selectedAlgorithmType);
+                selectedAlgorithm.startSearch();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Couldn't run algorithm: " + selectedAlgorithmType);
+            }
+
+        });
 
         startMenu.add(start);
         startMenu.add(reset);
 
         JMenuItem AStar = new JMenuItem("A* Search"), dijkstra = new JMenuItem("Dijkstra's algorithm");
 
-        AStar.addActionListener(e->setSelectedAlgorithm(AlgorithmType.ASTAR));
+        AStar.addActionListener(actionEvent-> setSelectedAlgorithmType(AlgorithmType.ASTAR));
+        dijkstra.addActionListener(actionEvent-> setSelectedAlgorithmType(AlgorithmType.DIJKSTRA));
 
         algoMenu.add(AStar);
         algoMenu.add(dijkstra);
@@ -122,14 +131,8 @@ public class GUI extends JFrame {
         return menuBar;
     }
 
-    private void setSelectedAlgorithm(AlgorithmType algoType) {
-        DefaultNode startNode = board.getStartNode();
-        DefaultNode endNode = board.getEndNode();
-        if (startNode != null && endNode != null) {
-            selectedAlgorithm = algorithmFactory.createAlgorithm(board, algoType);
-        } else {
-            System.out.println("Board is lacking necessary nodes.");
-        }
+    private void setSelectedAlgorithmType(AlgorithmType algoType) {
+        selectedAlgorithmType = algoType;
     }
 
     private void updateSelectedNode() {
