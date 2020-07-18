@@ -34,6 +34,41 @@ public class AStar implements Algorithm
         openNodes.add(startNode);
     }
 
+    public void startSearch() {
+        System.out.println("Started search.");
+
+        while (!openNodes.isEmpty()) {
+            DefaultNode currentNode = openNodes.poll();
+
+            if (currentNode.equals(endNode)) {
+                // Make path
+                return;
+            }
+
+            ArrayList<DefaultNode> neighbours = getNeighbours(currentNode);
+
+            for (DefaultNode neighbour: neighbours) {
+                int temp_g = neighbour.getG() + 1;
+
+                if (temp_g < neighbour.getG()) {
+                    neighbour.setG(temp_g);
+                    neighbour.setF(temp_g + h(neighbour.getCartesianCoordinates(), endNode
+                    .getCartesianCoordinates()));
+
+                    if (!openNodes.contains(neighbour)) {
+                        openNodes.add(neighbour);
+                    }
+
+                }
+            }
+
+            if (currentNode.getNodeType() != NodeType.START) {
+                board.changeNodeType(currentNode, NodeType.DEFAULT_VISITED);
+            }
+        }
+    }
+
+    //Diagonal allowed.
     private ArrayList<DefaultNode> getNeighbours(DefaultNode node) {
         Point nodeCoordinates = node.getCartesianCoordinates();
         int nodeX = nodeCoordinates.x;
@@ -57,7 +92,49 @@ public class AStar implements Algorithm
         return neighbours;
     }
 
-    public void startSearch() {
-        System.out.println("Started search.");
+
+    //No Diagonals
+    /*public ArrayList<DefaultNode> getNeighbours(DefaultNode node) {
+        Point nodeCoordinates = node.getCartesianCoordinates();
+        int nodeX = nodeCoordinates.x;
+        int nodeY = nodeCoordinates.y;
+
+        ArrayList<DefaultNode> neighbours = new ArrayList<>();
+
+        if (nodeX - 1 >= 0 && board.getNodeAt(new Point(nodeX - 1, nodeY)).getNodeType() != NodeType.WALL) { //LEFT
+            neighbours.add((DefaultNode) board.getNodeAt(new Point(nodeX - 1, nodeY)));
+        }
+
+        if (nodeX + 1 < gridRows && board.getNodeAt(new Point(nodeX + 1, nodeY)).getNodeType() != NodeType.WALL) { //RIGHT
+            neighbours.add((DefaultNode) board.getNodeAt(new Point(nodeX + 1, nodeY)));
+        }
+
+        if (nodeY - 1 >= 0 && board.getNodeAt(new Point(nodeX, nodeY - 1)).getNodeType() != NodeType.WALL) { //UP
+            neighbours.add((DefaultNode) board.getNodeAt(new Point(nodeX, nodeY - 1)));
+        }
+
+        if (nodeY + 1 < gridCols && board.getNodeAt(new Point(nodeX, nodeY + 1)).getNodeType() != NodeType.WALL) { //DOWN
+            neighbours.add((DefaultNode) board.getNodeAt(new Point(nodeX, nodeY + 1)));
+        }
+
+        System.out.println(neighbours.size());
+
+        return neighbours;
+    }*/
+
+    //Diagonal allowed.
+    private int h( Point coordinatesOne, Point coordinatesTwo) { // Uniform cost diagonal distance.
+        int dx = Math.abs(coordinatesOne.x - coordinatesTwo.x);
+        int dy = Math.abs(coordinatesOne.y - coordinatesTwo.y);
+
+        return Math.max(dx, dy);
     }
+
+    //No Diagonals
+    /*private int h( Point coordinatesOne, Point coordinatesTwo) { //Manhattan distance.
+        int dx = Math.abs(coordinatesOne.x - coordinatesTwo.x);
+        int dy = Math.abs(coordinatesOne.y - coordinatesTwo.y);
+
+        return dx + dy;
+    }*/
 }

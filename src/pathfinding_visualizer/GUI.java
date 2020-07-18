@@ -1,8 +1,10 @@
 package pathfinding_visualizer;
 
+import pathfinding_visualizer.algorithms.AStar;
 import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.AlgorithmFactory;
 import pathfinding_visualizer.algorithms.AlgorithmType;
+import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;

@@ -137,4 +137,9 @@ public class Board extends JPanel
     public DefaultNode getEndNode() {
         return endNode;
     }
+
+    public void changeNodeType(DefaultNode node, NodeType nodeType) {
+        node.setNodeType(nodeType);
+        repaint();
+    }
 }
