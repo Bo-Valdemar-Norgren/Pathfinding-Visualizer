@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class WallNode extends Node
 {
-    public WallNode(Point cartesianCoordinates) {
-	super(cartesianCoordinates, NodeType.WALL);
+    public WallNode(Point coordinates) {
+	super(coordinates, NodeType.WALL);
     }
 }

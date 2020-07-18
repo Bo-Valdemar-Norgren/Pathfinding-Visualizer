@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class VerticalHorizontal implements TraversalStrategy
 {
     public ArrayList<DefaultNode> getNeighbours(Board board, DefaultNode node) {
-	Point nodeCoordinates = node.getCartesianCoordinates();
+	Point nodeCoordinates = node.getCoordinates();
 	int nodeX = nodeCoordinates.x;
 	int nodeY = nodeCoordinates.y;
 
@@ -36,12 +36,10 @@ public class VerticalHorizontal implements TraversalStrategy
 	    neighbours.add((DefaultNode) board.getNodeAt(new Point(nodeX, nodeY + 1)));
 	}
 
-	System.out.println(neighbours.size());
-
 	return neighbours;
     }
 
-    public int h(final Point coordinatesOne, final Point coordinatesTwo) { //Manhattan distance.
+    public int h(Point coordinatesOne, Point coordinatesTwo) { //Manhattan distance.
 	int dx = Math.abs(coordinatesOne.x - coordinatesTwo.x);
 	int dy = Math.abs(coordinatesOne.y - coordinatesTwo.y);
 

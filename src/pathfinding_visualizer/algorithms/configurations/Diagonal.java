@@ -13,7 +13,7 @@ public class Diagonal implements TraversalStrategy
 
 {
     public ArrayList<DefaultNode> getNeighbours(Board board, DefaultNode node) {
-	Point nodeCoordinates = node.getCartesianCoordinates();
+	Point nodeCoordinates = node.getCoordinates();
 	int nodeX = nodeCoordinates.x;
 	int nodeY = nodeCoordinates.y;
 
@@ -24,7 +24,7 @@ public class Diagonal implements TraversalStrategy
 
 	for (int y = nodeY-1; y<=nodeY+1; y++) {
 	    for (int x = nodeX-1; x<=nodeX+1; x++) {
-		if (y >= 0 && y < gridCols && x >= 0 && x < gridRows) { //if in bounds
+		if (y >= 0 && y < gridCols && x >= 0 && x < gridRows) { // if in bounds
 		    Point currentCoordinates = new Point(x, y);
 		    Node currentNode = board.getNodeAt(currentCoordinates);
 		    NodeType currentNodeType = currentNode.getNodeType();

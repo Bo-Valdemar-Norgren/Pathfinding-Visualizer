@@ -7,65 +7,59 @@ import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.PriorityQueue;
 
 public class AStar implements Algorithm
 {
     private Board board;
     private TraversalStrategy traversalStrategy;
-    private PriorityQueue<DefaultNode> openNodes;
-    private ArrayList<DefaultNode> closedNodes;
-    private DefaultNode startNode;
-    private DefaultNode endNode;
 
-    public AStar(Board board, DefaultNode startNode, DefaultNode endNode) {
+    public AStar(Board board) {
         this.board = board;
-        this.traversalStrategy = new VerticalHorizontal();
-        this.startNode = Objects.requireNonNull(startNode, "There must exist a start node.");
-        this.endNode = Objects.requireNonNull(endNode, "There must exist an end node.");
-        this.closedNodes = new ArrayList<>();
-        this.openNodes = new PriorityQueue<>();
-        openNodes.add(startNode);
+        this.traversalStrategy = new VerticalHorizontal(); // VH by default.;
     }
 
     public void startSearch() {
-        System.out.println("Started search.");
 
+        PriorityQueue<DefaultNode> openNodes = new PriorityQueue<>();
+        DefaultNode startNode = board.getStartNode();
+        DefaultNode endNode = board.getEndNode();
+
+        openNodes.add(startNode);
         while (!openNodes.isEmpty()) {
             DefaultNode currentNode = openNodes.poll();
-            closedNodes.add(currentNode);
-
             if (currentNode.equals(endNode)) {
-                // Make path
+                reconstructPath(currentNode);
                 return;
             }
-
             ArrayList<DefaultNode> neighbours = traversalStrategy.getNeighbours(board, currentNode);
-
             for (DefaultNode neighbour: neighbours) {
-
-                if (closedNodes.contains(neighbour)) {
-                    continue;
-                }
-
                 int temp_g = neighbour.getG() + 1;
-
                 if (temp_g < neighbour.getG()) {
+                    neighbour.setParent(currentNode);
                     neighbour.setG(temp_g);
-                    neighbour.setF(temp_g + traversalStrategy.h(neighbour.getCartesianCoordinates(), endNode
-                    .getCartesianCoordinates()));
-
+                    neighbour.setF(temp_g + traversalStrategy.h(neighbour.getCoordinates(), endNode
+                    .getCoordinates()));
                     if (!openNodes.contains(neighbour)) {
                         openNodes.add(neighbour);
                     }
-
                 }
             }
-
             if (currentNode.getNodeType() != NodeType.START) {
-                board.changeNodeType(currentNode, NodeType.DEFAULT_VISITED);
+                board.changeNodeType(currentNode, NodeType.VISITED);
             }
         }
+    }
+
+    private void reconstructPath(DefaultNode endNode) {
+        DefaultNode currentNode = endNode.getParent();
+        while (currentNode != currentNode.getParent() && currentNode.getNodeType() != NodeType.START) {
+            board.changeNodeType(currentNode, NodeType.PATH);
+            currentNode = currentNode.getParent();
+        }
+    }
+
+    public void setTraversalStrategy (TraversalStrategy traversalStrategy) {
+        this.traversalStrategy = traversalStrategy;
     }
 }

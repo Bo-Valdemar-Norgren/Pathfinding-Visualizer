@@ -4,11 +4,11 @@ import java.awt.*;
 
 public abstract class Node
 {
-    protected Point cartesianCoordinates;
+    protected Point coordinates;
     protected NodeType nodeType;
 
-    public Node(Point cartesianCoordinates, NodeType nodeType) {
-	this.cartesianCoordinates = cartesianCoordinates;
+    public Node(Point coordinates, NodeType nodeType) {
+	this.coordinates = coordinates;
 	this.nodeType = nodeType;
     }
 
@@ -16,7 +16,7 @@ public abstract class Node
 	return nodeType;
     }
 
-    public Point getCartesianCoordinates() {
-	return cartesianCoordinates;
+    public Point getCoordinates() {
+	return coordinates;
     }
 }

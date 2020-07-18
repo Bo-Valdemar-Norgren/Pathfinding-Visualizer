@@ -1,14 +1,15 @@
 package pathfinding_visualizer;
 
-import pathfinding_visualizer.algorithms.AStar;
 import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.AlgorithmFactory;
 import pathfinding_visualizer.algorithms.AlgorithmType;
-import pathfinding_visualizer.nodes.DefaultNode;
+import pathfinding_visualizer.algorithms.configurations.Diagonal;
+import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
 import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -17,18 +18,16 @@ public class GUI extends JFrame {
     private Board board;
     private AlgorithmFactory algorithmFactory;
     private NodeType selectedNodeType;
-    private AlgorithmType selectedAlgorithmType;
+    private Algorithm algorithm;
     private int mx;
     private int my;
 
     public GUI() {
         this.board = new Board();
+        this.add(board);
         this.selectedNodeType = NodeType.WALL;
         this.algorithmFactory = new AlgorithmFactory();
-        this.add(board);
-
-        JPanel toolboxPane = createToolbox();
-        this.setGlassPane(toolboxPane);
+        setAlgorithm(AlgorithmType.ASTAR);
 
         JMenuBar menuBar = createMenu();
         this.setJMenuBar(menuBar);
@@ -39,20 +38,13 @@ public class GUI extends JFrame {
         MouseClick click = new MouseClick();
         this.addMouseListener(click);
 
-        this.setTitle("Pathfinding Algorithm Visualizer");
+
+        this.setTitle("Pathfinding Algorithm Visualizer - ASTAR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-    }
-
-    private JPanel createToolbox() {
-        JPanel toolboxPane = new JPanel();
-        JCheckBox traversalStrategy = new JCheckBox("Allow diagonals");
-        toolboxPane.add(traversalStrategy);
-
-        return toolboxPane;
     }
 
     public class MouseMoves implements MouseMotionListener
@@ -118,14 +110,12 @@ public class GUI extends JFrame {
 
         JMenuItem start = new JMenuItem("Start"), reset = new JMenuItem("Reset");
 
-        reset.addActionListener(actionEvent -> board.fillBoardWithDefaultNodes());
+        reset.addActionListener(actionEvent -> board.resetBoard());
         start.addActionListener(actionEvent -> {
             try {
-                Algorithm selectedAlgorithm = algorithmFactory.createAlgorithm(board, selectedAlgorithmType);
-                selectedAlgorithm.startSearch();
+                algorithm.startSearch();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("Couldn't run algorithm: " + selectedAlgorithmType);
+                System.out.println("Couldn't run algorithm: " + algorithm.getClass());
             }
 
         });
@@ -135,8 +125,8 @@ public class GUI extends JFrame {
 
         JMenuItem AStar = new JMenuItem("A* Search"), dijkstra = new JMenuItem("Dijkstra's algorithm");
 
-        AStar.addActionListener(actionEvent-> setSelectedAlgorithmType(AlgorithmType.ASTAR));
-        dijkstra.addActionListener(actionEvent-> setSelectedAlgorithmType(AlgorithmType.DIJKSTRA));
+        AStar.addActionListener(actionEvent-> setAlgorithm(AlgorithmType.ASTAR));
+        dijkstra.addActionListener(actionEvent-> setAlgorithm(AlgorithmType.DIJKSTRA));
 
         algoMenu.add(AStar);
         algoMenu.add(dijkstra);
@@ -144,11 +134,23 @@ public class GUI extends JFrame {
         menuBar.add(startMenu);
         menuBar.add(nodeMenu);
         menuBar.add(algoMenu);
+
+        JCheckBox traversalStrategy = new JCheckBox("Allow diagonals");
+        traversalStrategy.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                algorithm.setTraversalStrategy(new Diagonal());
+            } else {
+                algorithm.setTraversalStrategy(new VerticalHorizontal());
+            }
+        });
+        menuBar.add(traversalStrategy);
+
         return menuBar;
     }
 
-    private void setSelectedAlgorithmType(AlgorithmType algoType) {
-        selectedAlgorithmType = algoType;
+    private void setAlgorithm(AlgorithmType algoType) {
+        algorithm = algorithmFactory.createAlgorithm(board, algoType);
+        this.setTitle("Pathfinding Algorithm Visualizer - " + algoType);
     }
 
     private void updateSelectedNode() {
@@ -161,7 +163,7 @@ public class GUI extends JFrame {
     private void replaceSelectedNodeWithDefaultNode() {
         if (cursorOnNode()) {
             Point coordinates = getSelectedNodeCoordinates();
-            board.setNode(coordinates, NodeType.DEFAULT_UNVISITED);
+            board.setNode(coordinates, NodeType.UNVISITED);
         }
     }
 

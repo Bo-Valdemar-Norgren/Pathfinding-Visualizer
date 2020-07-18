@@ -26,13 +26,14 @@ public class Board extends JPanel
 	this.nodeGrid = new Node[boardWidth][boardHeight];
 	this.nodeFactory = new NodeFactory();
 	this.nodeColors = new EnumMap<>(NodeType.class);
-	nodeColors.put(NodeType.DEFAULT_UNVISITED, Color.LIGHT_GRAY);
-	nodeColors.put(NodeType.DEFAULT_VISITED, Color.YELLOW);
+	nodeColors.put(NodeType.UNVISITED, Color.LIGHT_GRAY);
+	nodeColors.put(NodeType.VISITED, Color.YELLOW);
 	nodeColors.put(NodeType.WALL, Color.BLACK);
 	nodeColors.put(NodeType.START, Color.BLUE);
 	nodeColors.put(NodeType.END, Color.RED);
+	nodeColors.put(NodeType.PATH, Color.GREEN);
 
-	fillBoardWithDefaultNodes();
+	resetBoard();
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -103,7 +104,7 @@ public class Board extends JPanel
 	    for (int x = 0; x < boardWidth; x++) {
 		if (nodeGrid[x][y].getNodeType() == nodeType) {
 		    Point coordinates = new Point(x, y);
-		    nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.DEFAULT_UNVISITED);
+		    nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
 		}
 	    }
 	}
@@ -125,11 +126,14 @@ public class Board extends JPanel
 	this.endNode = endNode;
     }
 
-    public void fillBoardWithDefaultNodes() {
+    public void resetBoard() {
+        startNode = null;
+        endNode = null;
+
 	for (int y = 0; y < boardHeight; y++) {
 	    for (int x = 0; x < boardWidth; x++) {
 		Point coordinates = new Point(x, y);
-		nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.DEFAULT_UNVISITED);
+		nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
 	    }
 	}
 	repaint();

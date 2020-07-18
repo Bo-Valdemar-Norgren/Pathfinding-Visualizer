@@ -4,13 +4,15 @@ import java.awt.*;
 
 public class DefaultNode extends Node implements Comparable<DefaultNode>
 {
+    private DefaultNode parent;
     private int g;
     private int f;
 
-    public DefaultNode(Point cartesianCoordinates, NodeType nodeType) {
-        super(cartesianCoordinates, nodeType);
+    public DefaultNode(Point coordinates, NodeType nodeType) {
+        super(coordinates, nodeType);
         this.g = Integer.MAX_VALUE;
         this.f = Integer.MAX_VALUE;
+        this.parent = this;
     }
 
     @Override public int compareTo(final DefaultNode node) {
@@ -35,5 +37,13 @@ public class DefaultNode extends Node implements Comparable<DefaultNode>
 
     public void setF(final int f) {
         this.f = f;
+    }
+
+    public DefaultNode getParent() {
+        return parent;
+    }
+
+    public void setParent(DefaultNode parent) {
+        this.parent = parent;
     }
 }
