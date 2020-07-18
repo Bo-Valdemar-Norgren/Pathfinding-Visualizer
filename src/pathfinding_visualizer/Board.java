@@ -51,6 +51,14 @@ public class Board extends JPanel
 	}
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        int width = boardWidth*SQUARESIZE;
+        int height = boardHeight*SQUARESIZE;
+
+	return new Dimension(width, height);
+    }
+
     public Node getNodeAt(Point coordinates) {
         int x = coordinates.x;
         int y = coordinates.y;

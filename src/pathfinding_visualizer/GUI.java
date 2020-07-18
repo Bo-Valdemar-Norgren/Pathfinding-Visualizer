@@ -22,25 +22,39 @@ public class GUI extends JFrame {
     private int my;
 
     public GUI() {
-        this.setTitle("Pathfinding Visualizer");
-        this.setSize(642,684);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.selectedNodeType = NodeType.WALL;
         this.board = new Board();
+        this.selectedNodeType = NodeType.WALL;
         this.algorithmFactory = new AlgorithmFactory();
-        this.setContentPane(board);
+        this.add(board);
+
+        JPanel toolboxPane = createToolbox();
+        this.setGlassPane(toolboxPane);
 
         JMenuBar menuBar = createMenu();
         this.setJMenuBar(menuBar);
-        this.setVisible(true);
+
         MouseMoves move = new MouseMoves();
         this.addMouseMotionListener(move);
 
         MouseClick click = new MouseClick();
         this.addMouseListener(click);
 
+        this.setTitle("Pathfinding Algorithm Visualizer");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
+
+    private JPanel createToolbox() {
+        JPanel toolboxPane = new JPanel();
+        JCheckBox traversalStrategy = new JCheckBox("Allow diagonals");
+        toolboxPane.add(traversalStrategy);
+
+        return toolboxPane;
+    }
+
     public class MouseMoves implements MouseMotionListener
     {
 
