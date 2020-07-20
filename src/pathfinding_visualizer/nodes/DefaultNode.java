@@ -10,9 +10,9 @@ public class DefaultNode extends Node implements Comparable<DefaultNode>
 
     public DefaultNode(Point coordinates, NodeType nodeType) {
         super(coordinates, nodeType);
-        this.g = Integer.MAX_VALUE;
-        this.f = Integer.MAX_VALUE;
-        this.parent = this;
+        this.g = 10000000; //Arbitrarily large number to mimic infinity.
+        this.f = 10000000;
+        this.parent = null;
     }
 
     @Override public int compareTo(final DefaultNode node) {

@@ -20,7 +20,6 @@ public class AStar implements Algorithm
     }
 
     public void startSearch() {
-
         PriorityQueue<DefaultNode> openNodes = new PriorityQueue<>();
         DefaultNode startNode = board.getStartNode();
         DefaultNode endNode = board.getEndNode();
@@ -53,7 +52,7 @@ public class AStar implements Algorithm
 
     private void reconstructPath(DefaultNode endNode) {
         DefaultNode currentNode = endNode.getParent();
-        while (currentNode != currentNode.getParent() && currentNode.getNodeType() != NodeType.START) {
+        while (currentNode != null && currentNode.getNodeType() != NodeType.START) {
             board.changeNodeType(currentNode, NodeType.PATH);
             currentNode = currentNode.getParent();
         }
