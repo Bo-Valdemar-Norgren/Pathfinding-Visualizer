@@ -11,8 +11,8 @@ public class Dijkstra implements Algorithm
         this.board = board;
     }
 
-    public void startSearch() {
-
+    public int startSearch() {
+        return -1;
     }
 
     public void setTraversalStrategy(final TraversalStrategy traversalStrategy) {

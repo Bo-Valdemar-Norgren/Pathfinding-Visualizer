@@ -95,7 +95,7 @@ public class Board extends JPanel
 	    default:
 	        throw new IllegalArgumentException("No such node exists.");
 	}
-        repaint();
+        boardChanged();
     }
 
 
@@ -108,7 +108,7 @@ public class Board extends JPanel
 		}
 	    }
 	}
-	repaint();
+	boardChanged();
     }
 
     public int getBoardWidth() {
@@ -136,12 +136,9 @@ public class Board extends JPanel
 		nodeGrid[x][y] = nodeFactory.createNode(coordinates, NodeType.UNVISITED);
 	    }
 	}
-	repaint();
+	boardChanged();
     }
 
-    public Node[][] getNodeGrid() {
-        return nodeGrid;
-    }
     public DefaultNode getStartNode() {
         return startNode;
     }
@@ -150,8 +147,7 @@ public class Board extends JPanel
         return endNode;
     }
 
-    public void changeNodeType(DefaultNode node, NodeType nodeType) {
-        node.setNodeType(nodeType);
+    public void boardChanged() {
         repaint();
     }
 }

@@ -39,10 +39,13 @@ public class VerticalHorizontal implements TraversalStrategy
 	return neighbours;
     }
 
-    public int h(Point coordinatesOne, Point coordinatesTwo) { //Manhattan distance.
-	int dx = Math.abs(coordinatesOne.x - coordinatesTwo.x);
-	int dy = Math.abs(coordinatesOne.y - coordinatesTwo.y);
+    public int h(DefaultNode node, DefaultNode targetNode) { // Manhattan distance.
+        Point nodeCoordinates = node.getCoordinates();
+        Point targetNodeCoordinates = targetNode.getCoordinates();
+
+	int dx = Math.abs(nodeCoordinates.x - targetNodeCoordinates.x);
+	int dy = Math.abs(nodeCoordinates.y - targetNodeCoordinates.y);
 
 	return dx + dy;
-	}
+    }
     }

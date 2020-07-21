@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface TraversalStrategy
 {
     ArrayList<DefaultNode> getNeighbours(Board board, DefaultNode node);
-    int h(Point coordinatesOne, Point coordinatesTwo);
+    int h(DefaultNode node, DefaultNode targetNode);
 }

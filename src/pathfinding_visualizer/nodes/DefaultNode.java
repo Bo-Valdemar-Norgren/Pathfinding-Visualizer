@@ -46,4 +46,11 @@ public class DefaultNode extends Node implements Comparable<DefaultNode>
     public void setParent(DefaultNode parent) {
         this.parent = parent;
     }
+
+    public boolean isStartNode() {
+        return nodeType == NodeType.START;
+    }
+    public boolean isEndNode() {
+        return nodeType == NodeType.END;
+    }
 }

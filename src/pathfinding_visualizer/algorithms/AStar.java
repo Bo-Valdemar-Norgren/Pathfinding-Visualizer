@@ -16,46 +16,54 @@ public class AStar implements Algorithm
 
     public AStar(Board board) {
         this.board = board;
-        this.traversalStrategy = new VerticalHorizontal(); // VH by default.;
+        this.traversalStrategy = new VerticalHorizontal(); // VH by default.
     }
 
-    public void startSearch() {
+    public int startSearch() {
         PriorityQueue<DefaultNode> openNodes = new PriorityQueue<>();
         DefaultNode startNode = board.getStartNode();
         DefaultNode endNode = board.getEndNode();
 
+        startNode.setG(0);
+        startNode.setF(traversalStrategy.h(startNode, endNode));
+
         openNodes.add(startNode);
         while (!openNodes.isEmpty()) {
             DefaultNode currentNode = openNodes.poll();
-            if (currentNode.equals(endNode)) {
-                reconstructPath(currentNode);
-                return;
+            if (currentNode.isEndNode()) {
+                return reconstructPath(currentNode);
             }
             ArrayList<DefaultNode> neighbours = traversalStrategy.getNeighbours(board, currentNode);
             for (DefaultNode neighbour: neighbours) {
-                int temp_g = neighbour.getG() + 1;
-                if (temp_g < neighbour.getG()) {
+                int tentativeG = currentNode.getG() + 1;
+                if (tentativeG < neighbour.getG()) {
                     neighbour.setParent(currentNode);
-                    neighbour.setG(temp_g);
-                    neighbour.setF(temp_g + traversalStrategy.h(neighbour.getCoordinates(), endNode
-                    .getCoordinates()));
+                    neighbour.setG(tentativeG);
+                    neighbour.setF(tentativeG + traversalStrategy.h(neighbour, endNode));
                     if (!openNodes.contains(neighbour)) {
                         openNodes.add(neighbour);
                     }
                 }
             }
-            if (currentNode.getNodeType() != NodeType.START) {
-                board.changeNodeType(currentNode, NodeType.VISITED);
+            if (!currentNode.isStartNode()) {
+                currentNode.setNodeType(NodeType.VISITED);
+                board.boardChanged();
             }
         }
+        return -1; // No path found.
     }
 
-    private void reconstructPath(DefaultNode endNode) {
+    private int reconstructPath(DefaultNode endNode) {
+        int length = 0;
         DefaultNode currentNode = endNode.getParent();
         while (currentNode != null && currentNode.getNodeType() != NodeType.START) {
-            board.changeNodeType(currentNode, NodeType.PATH);
+            currentNode.setNodeType(NodeType.PATH);
+            board.boardChanged();
             currentNode = currentNode.getParent();
+            length += 1;
         }
+        System.out.println(length);
+        return length;
     }
 
     public void setTraversalStrategy (TraversalStrategy traversalStrategy) {

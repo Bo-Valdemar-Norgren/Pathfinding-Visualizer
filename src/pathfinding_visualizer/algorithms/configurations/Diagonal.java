@@ -1,7 +1,6 @@
 package pathfinding_visualizer.algorithms.configurations;
 
 import pathfinding_visualizer.Board;
-import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.Node;
 import pathfinding_visualizer.nodes.NodeType;
@@ -38,10 +37,14 @@ public class Diagonal implements TraversalStrategy
 	return neighbours;
     }
 
-    public int h(Point coordinatesOne, Point coordinatesTwo) { // Uniform cost diagonal distance.
-	int dx = Math.abs(coordinatesOne.x - coordinatesTwo.x);
-	int dy = Math.abs(coordinatesOne.y - coordinatesTwo.y);
+    public int h(DefaultNode node, DefaultNode targetNode) { // Uniform cost diagonal distance.
+	Point nodeCoordinates = node.getCoordinates();
+	Point targetNodeCoordinates = targetNode.getCoordinates();
+
+	int dx = Math.abs(nodeCoordinates.x - targetNodeCoordinates.x);
+	int dy = Math.abs(nodeCoordinates.y - targetNodeCoordinates.y);
 
 	return Math.max(dx, dy);
+
     }
 }
