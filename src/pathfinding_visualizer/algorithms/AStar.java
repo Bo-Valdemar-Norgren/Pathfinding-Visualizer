@@ -62,7 +62,6 @@ public class AStar implements Algorithm
             currentNode = currentNode.getParent();
             length += 1;
         }
-        System.out.println(length);
         return length;
     }
 

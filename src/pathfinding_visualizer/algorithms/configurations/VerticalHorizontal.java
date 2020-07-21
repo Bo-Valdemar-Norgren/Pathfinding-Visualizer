@@ -1,7 +1,6 @@
 package pathfinding_visualizer.algorithms.configurations;
 
 import pathfinding_visualizer.Board;
-import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 

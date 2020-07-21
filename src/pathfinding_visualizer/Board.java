@@ -1,7 +1,7 @@
 package pathfinding_visualizer;
 
-import pathfinding_visualizer.nodes.Node;
 import pathfinding_visualizer.nodes.DefaultNode;
+import pathfinding_visualizer.nodes.Node;
 import pathfinding_visualizer.nodes.NodeFactory;
 import pathfinding_visualizer.nodes.NodeType;
 import pathfinding_visualizer.nodes.WallNode;

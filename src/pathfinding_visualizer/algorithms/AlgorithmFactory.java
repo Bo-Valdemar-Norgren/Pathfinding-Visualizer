@@ -1,7 +1,6 @@
 package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
-import pathfinding_visualizer.nodes.DefaultNode;
 
 public class AlgorithmFactory
 {
