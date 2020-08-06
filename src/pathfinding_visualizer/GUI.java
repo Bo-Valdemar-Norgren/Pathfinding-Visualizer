@@ -9,15 +9,12 @@ import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class GUI extends JFrame {
     private Board board;
@@ -154,10 +151,7 @@ public class GUI extends JFrame {
         JSlider algorithmSpeed = new JSlider(JSlider.HORIZONTAL, 10, 350, Timer.DEFAULT_TIMER_DELAY);
         algorithmSpeed.setInverted(true);
         algorithmSpeed.setToolTipText("Adjust this slider to change the algorithm speed.");
-        algorithmSpeed.addChangeListener(changeEvent -> {
-            System.out.println("Changed: " + algorithmSpeed.getValue());
-            board.setTimer(algorithmSpeed.getValue());
-        });
+        algorithmSpeed.addChangeListener(changeEvent -> board.setTimer(algorithmSpeed.getValue()));
         menuBar.add(algorithmSpeed);
         return menuBar;
     }

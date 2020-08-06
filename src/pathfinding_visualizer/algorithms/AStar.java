@@ -4,10 +4,8 @@ import pathfinding_visualizer.Board;
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
 import pathfinding_visualizer.nodes.DefaultNode;
-import pathfinding_visualizer.nodes.NodeType;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class AStar implements Algorithm

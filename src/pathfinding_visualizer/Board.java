@@ -9,6 +9,7 @@ import pathfinding_visualizer.nodes.WallNode;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 
@@ -27,6 +28,9 @@ public class Board extends JPanel
 
     public Board() {
         this.timer = new Timer(this);
+        this.resultIterator = Collections.emptyIterator();
+        this.pathIterator = Collections.emptyIterator();
+
         this.boardWidth = 40;
 	this.boardHeight = 40;
 	this.nodeGrid = new Node[boardWidth][boardHeight];
@@ -161,7 +165,6 @@ public class Board extends JPanel
     private void updateIterators(ArrayList<DefaultNode> visitedNodes) {
 	resultIterator = visitedNodes.iterator();
 
-
 	ArrayList<DefaultNode> path = new ArrayList<>();
 	DefaultNode endNodeCandidate = visitedNodes.get(visitedNodes.size() - 1);
 	if (endNodeCandidate.getNodeType() == NodeType.END) {
@@ -170,7 +173,6 @@ public class Board extends JPanel
 		path.add(currentNode);
 		currentNode = currentNode.getParent();
 	    }
-	    System.out.println("success");
 	    pathIterator = path.iterator();
 	}
     }
@@ -191,7 +193,6 @@ public class Board extends JPanel
 		currentNode.setNodeType(NodeType.PATH);
 	    }
 	} else {
-	    System.out.println("Stopped timer");
 	    timer.stop();
 	}
 	boardChanged();
