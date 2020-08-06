@@ -1,6 +1,7 @@
-package pathfinding_visualizer.algorithms;
+package pathfinding_visualizer.algorithms.implementations;
 
 import pathfinding_visualizer.Board;
+import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
 import pathfinding_visualizer.nodes.DefaultNode;

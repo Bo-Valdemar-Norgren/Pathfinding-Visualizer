@@ -1,6 +1,8 @@
 package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
+import pathfinding_visualizer.algorithms.implementations.AStar;
+import pathfinding_visualizer.algorithms.implementations.Dijkstra;
 
 public class AlgorithmFactory
 {

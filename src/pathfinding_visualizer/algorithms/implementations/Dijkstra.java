@@ -1,6 +1,7 @@
-package pathfinding_visualizer.algorithms;
+package pathfinding_visualizer.algorithms.implementations;
 
 import pathfinding_visualizer.Board;
+import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.nodes.DefaultNode;
 
@@ -13,7 +14,6 @@ public class Dijkstra implements Algorithm
     public Dijkstra(Board board) {
         this.board = board;
     }
-
 
     public ArrayList<DefaultNode> startSearch() {
         return null;
