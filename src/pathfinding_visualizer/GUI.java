@@ -152,6 +152,8 @@ public class GUI extends JFrame {
         menuBar.add(traversalStrategy);
 
         JSlider algorithmSpeed = new JSlider(JSlider.HORIZONTAL, 10, 350, Timer.DEFAULT_TIMER_DELAY);
+        algorithmSpeed.setInverted(true);
+        algorithmSpeed.setToolTipText("Adjust this slider to change the algorithm speed.");
         algorithmSpeed.addChangeListener(changeEvent -> {
             System.out.println("Changed: " + algorithmSpeed.getValue());
             board.setTimer(algorithmSpeed.getValue());
