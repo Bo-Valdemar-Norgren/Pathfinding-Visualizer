@@ -7,6 +7,7 @@ import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class AStar implements Algorithm
@@ -19,7 +20,8 @@ public class AStar implements Algorithm
         this.traversalStrategy = new VerticalHorizontal(); // VH by default.
     }
 
-    public int startSearch() {
+    public ArrayList<DefaultNode> startSearch() {
+        ArrayList<DefaultNode> visitedNodes = new ArrayList<>();
         PriorityQueue<DefaultNode> openNodes = new PriorityQueue<>();
         DefaultNode startNode = board.getStartNode();
         DefaultNode endNode = board.getEndNode();
@@ -30,8 +32,11 @@ public class AStar implements Algorithm
         openNodes.add(startNode);
         while (!openNodes.isEmpty()) {
             DefaultNode currentNode = openNodes.poll();
+            if (!currentNode.isStartNode()) {
+                visitedNodes.add(currentNode);
+            }
             if (currentNode.isEndNode()) {
-                return reconstructPath(currentNode);
+                return visitedNodes;
             }
             ArrayList<DefaultNode> neighbours = traversalStrategy.getNeighbours(board, currentNode);
             for (DefaultNode neighbour: neighbours) {
@@ -45,24 +50,8 @@ public class AStar implements Algorithm
                     }
                 }
             }
-            if (!currentNode.isStartNode()) {
-                currentNode.setNodeType(NodeType.VISITED);
-                board.boardChanged();
-            }
         }
-        return -1; // No path found.
-    }
-
-    private int reconstructPath(DefaultNode endNode) {
-        int length = 0;
-        DefaultNode currentNode = endNode.getParent();
-        while (currentNode != null && currentNode.getNodeType() != NodeType.START) {
-            currentNode.setNodeType(NodeType.PATH);
-            board.boardChanged();
-            currentNode = currentNode.getParent();
-            length += 1;
-        }
-        return length;
+        return visitedNodes; // No path found.
     }
 
     public void setTraversalStrategy (TraversalStrategy traversalStrategy) {

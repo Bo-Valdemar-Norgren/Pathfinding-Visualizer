@@ -1,9 +1,12 @@
 package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
+import pathfinding_visualizer.nodes.DefaultNode;
+
+import java.util.ArrayList;
 
 public interface Algorithm
 {
-    int startSearch();
+    ArrayList<DefaultNode> startSearch();
     void setTraversalStrategy(TraversalStrategy traversalStrategy);
 }

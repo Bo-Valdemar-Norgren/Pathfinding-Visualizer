@@ -5,14 +5,19 @@ import pathfinding_visualizer.algorithms.AlgorithmFactory;
 import pathfinding_visualizer.algorithms.AlgorithmType;
 import pathfinding_visualizer.algorithms.configurations.Diagonal;
 import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
+import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GUI extends JFrame {
     private Board board;
@@ -113,7 +118,8 @@ public class GUI extends JFrame {
         reset.addActionListener(actionEvent -> board.resetBoard());
         start.addActionListener(actionEvent -> {
             try {
-                algorithm.startSearch();
+                ArrayList<DefaultNode> visitedNodes = algorithm.startSearch();
+                board.showResults(visitedNodes);
             } catch (Exception e) {
                 System.out.println("Couldn't run algorithm: " + algorithm.getClass());
             }
@@ -145,6 +151,12 @@ public class GUI extends JFrame {
         });
         menuBar.add(traversalStrategy);
 
+        JSlider algorithmSpeed = new JSlider(JSlider.HORIZONTAL, 10, 350, Timer.DEFAULT_TIMER_DELAY);
+        algorithmSpeed.addChangeListener(changeEvent -> {
+            System.out.println("Changed: " + algorithmSpeed.getValue());
+            board.setTimer(algorithmSpeed.getValue());
+        });
+        menuBar.add(algorithmSpeed);
         return menuBar;
     }
 

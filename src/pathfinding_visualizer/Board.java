@@ -8,10 +8,15 @@ import pathfinding_visualizer.nodes.WallNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Iterator;
 
 public class Board extends JPanel
 {
+    private Timer timer;
+    private Iterator<DefaultNode> resultIterator;
+    private Iterator<DefaultNode> pathIterator;
     public Node[][] nodeGrid;
     public static final int SQUARESIZE = 16;
     private NodeFactory nodeFactory;
@@ -21,6 +26,7 @@ public class Board extends JPanel
     private DefaultNode endNode;
 
     public Board() {
+        this.timer = new Timer(this);
         this.boardWidth = 40;
 	this.boardHeight = 40;
 	this.nodeGrid = new Node[boardWidth][boardHeight];
@@ -147,7 +153,51 @@ public class Board extends JPanel
         return endNode;
     }
 
+    public void showResults(ArrayList<DefaultNode> visitedNodes) {
+        updateIterators(visitedNodes);
+	timer.start();
+    }
+
+    private void updateIterators(ArrayList<DefaultNode> visitedNodes) {
+	resultIterator = visitedNodes.iterator();
+
+
+	ArrayList<DefaultNode> path = new ArrayList<>();
+	DefaultNode endNodeCandidate = visitedNodes.get(visitedNodes.size() - 1);
+	if (endNodeCandidate.getNodeType() == NodeType.END) {
+	    DefaultNode currentNode = endNodeCandidate.getParent();
+	    while (currentNode.getParent() != null && currentNode.getNodeType() != NodeType.START) {
+		path.add(currentNode);
+		currentNode = currentNode.getParent();
+	    }
+	    System.out.println("success");
+	    pathIterator = path.iterator();
+	}
+    }
+
     public void boardChanged() {
         repaint();
+    }
+
+    public void nextResultNode() {
+        if (resultIterator.hasNext()) {
+            DefaultNode currentNode = resultIterator.next();
+	    if (currentNode.getNodeType() != NodeType.END) {
+		currentNode.setNodeType(NodeType.VISITED);
+	    }
+	}  else if (pathIterator.hasNext()) {
+	    DefaultNode currentNode = pathIterator.next();
+	    if (currentNode.getNodeType() != NodeType.START) {
+		currentNode.setNodeType(NodeType.PATH);
+	    }
+	} else {
+	    System.out.println("Stopped timer");
+	    timer.stop();
+	}
+	boardChanged();
+    }
+
+    public void setTimer(int delay) {
+        timer.changeTimerDelay(delay);
     }
 }

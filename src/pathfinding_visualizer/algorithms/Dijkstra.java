@@ -2,6 +2,9 @@ package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
+import pathfinding_visualizer.nodes.DefaultNode;
+
+import java.util.ArrayList;
 
 public class Dijkstra implements Algorithm
 {
@@ -11,8 +14,9 @@ public class Dijkstra implements Algorithm
         this.board = board;
     }
 
-    public int startSearch() {
-        return -1;
+
+    public ArrayList<DefaultNode> startSearch() {
+        return null;
     }
 
     public void setTraversalStrategy(final TraversalStrategy traversalStrategy) {
