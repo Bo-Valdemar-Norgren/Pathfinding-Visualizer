@@ -2,6 +2,8 @@ package pathfinding_visualizer.algorithms;
 
 import pathfinding_visualizer.Board;
 import pathfinding_visualizer.algorithms.implementations.AStar;
+import pathfinding_visualizer.algorithms.implementations.BreadthFirstSearch;
+import pathfinding_visualizer.algorithms.implementations.DepthFirstSearch;
 import pathfinding_visualizer.algorithms.implementations.Dijkstra;
 
 public class AlgorithmFactory
@@ -12,6 +14,10 @@ public class AlgorithmFactory
 		return new AStar(board);
 	    case DIJKSTRA:
 	        return new Dijkstra(board);
+	    case BFS:
+	        return new BreadthFirstSearch(board);
+	    case DFS:
+	        return new DepthFirstSearch(board);
 	    default:
 	        throw new IllegalArgumentException("No such algorithm exists.");
 	}
