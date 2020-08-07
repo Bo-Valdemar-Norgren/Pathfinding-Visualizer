@@ -9,4 +9,5 @@ public interface Algorithm
 {
     ArrayList<DefaultNode> startSearch();
     void setTraversalStrategy(TraversalStrategy traversalStrategy);
+    TraversalStrategy getTraversalStrategy();
 }

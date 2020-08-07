@@ -3,7 +3,6 @@ package pathfinding_visualizer.algorithms.implementations;
 import pathfinding_visualizer.Board;
 import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
-import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
 import pathfinding_visualizer.nodes.DefaultNode;
 
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ public class Dijkstra implements Algorithm
 {
     private Board board;
     private TraversalStrategy traversalStrategy;
-    public Dijkstra(Board board) {
+    public Dijkstra(Board board, TraversalStrategy traversalStrategy) {
         this.board = board;
-        this.traversalStrategy = new VerticalHorizontal(); // VH by default.
+        this.traversalStrategy = traversalStrategy;
     }
 
     public ArrayList<DefaultNode> startSearch() {
@@ -54,5 +53,8 @@ public class Dijkstra implements Algorithm
 
     public void setTraversalStrategy(final TraversalStrategy traversalStrategy) {
         this.traversalStrategy = traversalStrategy;
+    }
+    public TraversalStrategy getTraversalStrategy() {
+        return traversalStrategy;
     }
 }

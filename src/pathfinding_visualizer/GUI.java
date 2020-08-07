@@ -4,6 +4,7 @@ import pathfinding_visualizer.algorithms.Algorithm;
 import pathfinding_visualizer.algorithms.AlgorithmFactory;
 import pathfinding_visualizer.algorithms.AlgorithmType;
 import pathfinding_visualizer.algorithms.configurations.Diagonal;
+import pathfinding_visualizer.algorithms.configurations.TraversalStrategy;
 import pathfinding_visualizer.algorithms.configurations.VerticalHorizontal;
 import pathfinding_visualizer.nodes.DefaultNode;
 import pathfinding_visualizer.nodes.NodeType;
@@ -21,12 +22,14 @@ public class GUI extends JFrame {
     private AlgorithmFactory algorithmFactory;
     private NodeType selectedNodeType;
     private Algorithm algorithm;
+    private TraversalStrategy traversalStrategy;
     private int mx;
     private int my;
 
     public GUI() {
         this.board = new Board();
         this.add(board);
+        this.traversalStrategy = new VerticalHorizontal(); //VH by default
         this.selectedNodeType = NodeType.WALL;
         this.algorithmFactory = new AlgorithmFactory();
         setAlgorithm(AlgorithmType.ASTAR);
@@ -127,26 +130,33 @@ public class GUI extends JFrame {
         startMenu.add(reset);
 
         JMenuItem AStar = new JMenuItem("A* Search"), dijkstra = new JMenuItem("Dijkstra's algorithm");
+        JMenuItem BFS = new JMenuItem("Breadth First Search"), DFS = new JMenuItem("Depth First Search");
 
-        AStar.addActionListener(actionEvent-> setAlgorithm(AlgorithmType.ASTAR));
-        dijkstra.addActionListener(actionEvent-> setAlgorithm(AlgorithmType.DIJKSTRA));
+        AStar.addActionListener(actionEvent -> setAlgorithm(AlgorithmType.ASTAR));
+        dijkstra.addActionListener(actionEvent -> setAlgorithm(AlgorithmType.DIJKSTRA));
+        BFS.addActionListener(actionEvent -> setAlgorithm(AlgorithmType.BFS));
+        DFS.addActionListener(actionEvent -> setAlgorithm(AlgorithmType.DFS));
 
         algoMenu.add(AStar);
         algoMenu.add(dijkstra);
+        algoMenu.add(BFS);
+        algoMenu.add(DFS);
 
         menuBar.add(startMenu);
         menuBar.add(nodeMenu);
         menuBar.add(algoMenu);
 
-        JCheckBox traversalStrategy = new JCheckBox("Allow diagonals");
-        traversalStrategy.addItemListener(itemEvent -> {
+        JCheckBox traversalStrategyBox = new JCheckBox("Allow diagonals");
+        traversalStrategyBox.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                algorithm.setTraversalStrategy(new Diagonal());
-            } else {
-                algorithm.setTraversalStrategy(new VerticalHorizontal());
+                traversalStrategy = new Diagonal();
+                algorithm.setTraversalStrategy(traversalStrategy);
+            } else if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
+                traversalStrategy = new VerticalHorizontal();
+                algorithm.setTraversalStrategy(traversalStrategy);
             }
         });
-        menuBar.add(traversalStrategy);
+        menuBar.add(traversalStrategyBox);
 
         JSlider algorithmSpeed = new JSlider(JSlider.HORIZONTAL, 10, 350, Timer.DEFAULT_TIMER_DELAY);
         algorithmSpeed.setInverted(true);
@@ -157,7 +167,7 @@ public class GUI extends JFrame {
     }
 
     private void setAlgorithm(AlgorithmType algoType) {
-        algorithm = algorithmFactory.createAlgorithm(board, algoType);
+        algorithm = algorithmFactory.createAlgorithm(board, algoType, traversalStrategy);
         this.setTitle("Pathfinding Algorithm Visualizer - " + algoType);
     }
 

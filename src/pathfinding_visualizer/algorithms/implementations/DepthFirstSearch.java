@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class DepthFirstSearch implements Algorithm
 {
     private Board board;
-    public DepthFirstSearch(Board board) {
+    public DepthFirstSearch(Board board, TraversalStrategy traversalStrategy) {
         this.board = board;
     }
 
@@ -20,5 +20,8 @@ public class DepthFirstSearch implements Algorithm
 
     @Override public void setTraversalStrategy(final TraversalStrategy traversalStrategy) {
 
+    }
+    public TraversalStrategy getTraversalStrategy() {
+        return null;
     }
 }
